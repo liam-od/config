@@ -45,6 +45,7 @@
           - zsh
           - eza
           - git
+          - curl
         state: present
       when: ansible_os_family == "Debian"
 
@@ -94,7 +95,6 @@
             dest: "{{ font_install_dir }}"
             remote_src: yes
             creates: "{{ expected_font_file_check }}"
-            create_remote_directory: yes
           register: font_unarchive_result
 
         - name: Clean up downloaded font zip file
@@ -106,7 +106,6 @@
         - name: Update font cache if fonts were newly installed
           ansible.builtin.command:
             cmd: fc-cache -fv
-            warn: false
           when: font_unarchive_result.changed
           changed_when: true
 
@@ -120,14 +119,6 @@
         path: "{{ user_home }}/workspace"
         state: directory
         mode: '0755'
-      become: false
-
-    - name: Clone config repo
-      ansible.builtin.git:
-        repo: "https://github.com/liamod/config.git"
-        dest: "{{ user_home }}/workspace/config"
-        version: main
-        accept_hostkey: yes
       become: false
 
     - name: Ensure .ssh directory exists
@@ -153,7 +144,7 @@
 
     - name: Symlink .ssh/config
       ansible.builtin.file:
-        src: "{{ user_home }}/workspace/config/dotfiles/.ssh/config"
+        src: dotfiles/.ssh/config
         dest: "{{ user_home }}/.ssh/config"
         state: link
         force: true
