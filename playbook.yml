@@ -144,8 +144,9 @@
 
     - name: Symlink .ssh/config
       ansible.builtin.file:
-        src: dotfiles/.ssh/config
+        src: "{{ playbook_dir }}/dotfiles/.ssh/config"
         dest: "{{ user_home }}/.ssh/config"
         state: link
         force: true
+        follow: false
       become: false
