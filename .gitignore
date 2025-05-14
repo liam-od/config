@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Temporary files
+*.swp
+*~
+*.bak
+
+# Python virtual environments
+venv/
+env/
+__pycache__/
+*.py[cod] 

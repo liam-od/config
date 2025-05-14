@@ -1,0 +1,160 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+
+  pre_tasks:
+    - name: Load environment variables from .env file
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/.env"
+        name: env_vars
+      become: false
+      
+    - name: Set Git variables
+      ansible.builtin.set_fact:
+        git_user_name: "{{ env_vars.GIT_USER_NAME }}"
+        git_user_email: "{{ env_vars.GIT_USER_EMAIL }}"
+        git_enki_name: "{{ env_vars.GIT_ENKI_NAME }}"
+        git_enki_email: "{{ env_vars.GIT_ENKI_EMAIL }}"
+      become: false
+
+    - name: Update apt cache (for Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      changed_when: false
+      when: ansible_os_family == "Debian"
+
+  roles:
+    # Roles will be defined here
+    # Example:
+    # - common
+    # - webserver
+
+  tasks:
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: "Development environment setup started!"
+
+    - name: Install essential and additional development tools
+      ansible.builtin.apt:
+        name:
+          - build-essential
+          - ripgrep
+          - unzip
+          - zsh
+          - eza
+          - git
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Starship prompt
+      ansible.builtin.shell:
+        cmd: curl -sS https://starship.rs/install.sh | sh -s -- --yes
+        creates: /usr/local/bin/starship
+      changed_when: true # Assume it changes if the command runs
+      
+    - name: Set user home directory
+      ansible.builtin.set_fact:
+        user_home: "{{ lookup('env', 'HOME') }}"
+      
+    - name: Install JetBrains Mono Nerd Font (v3.4.0)
+      become: false
+      block:
+        - name: Define font paths and URL
+          ansible.builtin.set_fact:
+            font_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
+            user_font_dir: "{{ user_home }}/.local/share/fonts"
+            font_install_dir: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono"
+            expected_font_file_check: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono/JetBrains Mono Regular Nerd Font Complete.ttf"
+            font_zip_temp_path: "/tmp/JetBrainsMono_v3.4.0.zip"
+            cacheable: yes
+
+        - name: Ensure user font base directory exists
+          ansible.builtin.file:
+            path: "{{ user_font_dir }}"
+            state: directory
+            mode: '0755'
+
+        - name: Ensure specific font installation directory exists
+          ansible.builtin.file:
+            path: "{{ font_install_dir }}"
+            state: directory
+            mode: '0755'
+
+        - name: Download JetBrains Mono Nerd Font zip (v3.4.0)
+          ansible.builtin.get_url:
+            url: "{{ font_download_url }}"
+            dest: "{{ font_zip_temp_path }}"
+            mode: '0644'
+
+        - name: Unarchive JetBrains Mono Nerd Font
+          ansible.builtin.unarchive:
+            src: "{{ font_zip_temp_path }}"
+            dest: "{{ font_install_dir }}"
+            remote_src: yes
+            creates: "{{ expected_font_file_check }}"
+            create_remote_directory: yes
+          register: font_unarchive_result
+
+        - name: Clean up downloaded font zip file
+          ansible.builtin.file:
+            path: "{{ font_zip_temp_path }}"
+            state: absent
+          when: font_zip_temp_path is defined and font_zip_temp_path != ""
+
+        - name: Update font cache if fonts were newly installed
+          ansible.builtin.command:
+            cmd: fc-cache -fv
+            warn: false
+          when: font_unarchive_result.changed
+          changed_when: true
+
+      tags:
+        - fonts
+        - nerdfonts
+        - jetbrainsmono
+
+    - name: Ensure workspace directory exists
+      ansible.builtin.file:
+        path: "{{ user_home }}/workspace"
+        state: directory
+        mode: '0755'
+      become: false
+
+    - name: Clone config repo
+      ansible.builtin.git:
+        repo: "https://github.com/liamod/config.git"
+        dest: "{{ user_home }}/workspace/config"
+        version: main
+        accept_hostkey: yes
+      become: false
+
+    - name: Ensure .ssh directory exists
+      ansible.builtin.file:
+        path: "{{ user_home }}/.ssh"
+        state: directory
+        mode: '0700'
+      become: false
+
+    - name: Create .gitconfig from template
+      ansible.builtin.template:
+        src: templates/gitconfig.j2
+        dest: "{{ user_home }}/.gitconfig"
+        mode: '0644'
+      become: false
+
+    - name: Create .gitconfig-enki from template
+      ansible.builtin.template:
+        src: templates/gitconfig-enki.j2
+        dest: "{{ user_home }}/.gitconfig-enki"
+        mode: '0644'
+      become: false
+
+    - name: Symlink .ssh/config
+      ansible.builtin.file:
+        src: "{{ user_home }}/workspace/config/dotfiles/.ssh/config"
+        dest: "{{ user_home }}/.ssh/config"
+        state: link
+        force: true
+      become: false 
