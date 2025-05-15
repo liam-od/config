@@ -264,3 +264,25 @@
         name: "{{ ansible_user_id }}"
         shell: /usr/bin/zsh
       become: yes
+
+    - name: Ensure .config directory exists
+      ansible.builtin.file:
+        path: "{{ user_home }}/.config"
+        state: directory
+        mode: '0755'
+      become: false
+
+    - name: Symlink starship.toml
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/dotfiles/.config/starship.toml"
+        dest: "{{ user_home }}/.config/starship.toml"
+        state: link
+        force: true
+        follow: false
+      become: false
+
+    - name: Set Caps Lock as additional Escape key
+      ansible.builtin.command:
+        cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+      become: false
+      changed_when: true
