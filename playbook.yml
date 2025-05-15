@@ -191,7 +191,9 @@
         - name: Update font cache if fonts were newly installed
           ansible.builtin.command:
             cmd: fc-cache -fv
-          when: font_unarchive_result.changed
+          when:
+            - font_unarchive_result.changed
+            - not is_wsl | default(false)
           changed_when: true
 
       tags:
@@ -286,3 +288,34 @@
         cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
       become: false
       changed_when: true
+      when: not is_wsl | default(false)
+
+    - name: Get default GNOME Terminal profile ID
+      ansible.builtin.shell:
+        cmd: gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'"
+      register: gnome_terminal_default_profile_id
+      changed_when: false
+      check_mode: no
+      become: false
+      when: not is_wsl | default(false)
+
+    - name: Set GNOME Terminal to use custom font
+      ansible.builtin.command:
+        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ use-system-font false"
+      become: false
+      changed_when: true
+      when: not is_wsl | default(false)
+
+    - name: Set GNOME Terminal font to JetBrainsMono Nerd Font Mono 12
+      ansible.builtin.command:
+        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ font 'JetBrainsMono Nerd Font Mono 12'"
+      become: false
+      changed_when: true
+      when: not is_wsl | default(false)
+
+    - name: Disable GNOME Terminal audible bell
+      ansible.builtin.command:
+        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ audible-bell false"
+      become: false
+      changed_when: true
+      when: not is_wsl | default(false)

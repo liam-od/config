@@ -26,8 +26,6 @@ Change terminal settings
     - font, font size
     - terminal bell
 
-Install gnome-tweaks, and set capslock as an additional escape.
-
 brave + sync code.
 
 proton vpn
@@ -45,3 +43,5 @@ AI cli
 copy ssh keys into directory before run ansible?
 
 neovim config improvements
+
+Add flag for wsl support: `ansible-playbook playbook.yml -e "is_wsl=true"`
