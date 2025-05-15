@@ -36,6 +36,10 @@
       ansible.builtin.debug:
         msg: "Development environment setup started!"
 
+    - name: Set user home directory
+      ansible.builtin.set_fact:
+        user_home: "{{ lookup('env', 'HOME') }}"
+
     - name: Install essential and additional development tools
       ansible.builtin.apt:
         name:
@@ -46,18 +50,93 @@
           - eza
           - git
           - curl
+          - python3-pip
+          - python3-venv
         state: present
       when: ansible_os_family == "Debian"
+
+    - name: Install uv
+      ansible.builtin.shell:
+        cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
+        creates: "{{ user_home }}/.local/bin/uv"
+      changed_when: true
+      become: false
+
+    - name: Install direnv
+      ansible.builtin.shell:
+        cmd: curl -sfL https://direnv.net/install.sh | bash
+        creates: "{{ user_home }}/.local/bin/direnv"
+      changed_when: true
+      become: false
+
+    - name: Set Neovim installation variables
+      ansible.builtin.set_fact:
+        nvim_appimage_url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+        nvim_appimage_temp_path: "/tmp/nvim-linux-x86_64.appimage"
+        nvim_install_dir: "/opt/nvim"
+        nvim_executable_path: "/opt/nvim/nvim"
+        cacheable: yes
+
+    - name: Check if Neovim is already installed
+      ansible.builtin.stat:
+        path: "{{ nvim_executable_path }}"
+      register: nvim_installed_stat
+
+    - name: Install Neovim AppImage
+      become: yes
+      block:
+        - name: Download Neovim AppImage
+          ansible.builtin.get_url:
+            url: "{{ nvim_appimage_url }}"
+            dest: "{{ nvim_appimage_temp_path }}"
+            mode: '0644'
+          become: false
+          register: nvim_download_result
+
+        - name: Ensure Neovim installation directory {{ nvim_install_dir }} exists
+          ansible.builtin.file:
+            path: "{{ nvim_install_dir }}"
+            state: directory
+            mode: '0755'
+            owner: root
+            group: root
+
+        - name: Move Neovim AppImage to {{ nvim_executable_path }} and set permissions
+          ansible.builtin.copy:
+            src: "{{ nvim_appimage_temp_path }}"
+            dest: "{{ nvim_executable_path }}"
+            remote_src: yes
+            mode: '0755'
+            owner: root
+            group: root
+
+      when: not nvim_installed_stat.stat.exists
+
+    - name: Clean up downloaded Neovim AppImage
+      ansible.builtin.file:
+        path: "{{ nvim_appimage_temp_path }}"
+        state: absent
+      when: nvim_download_result is defined and nvim_download_result.changed
 
     - name: Install Starship prompt
       ansible.builtin.shell:
         cmd: curl -sS https://starship.rs/install.sh | sh -s -- --yes
         creates: /usr/local/bin/starship
-      changed_when: true # Assume it changes if the command runs
-      
-    - name: Set user home directory
-      ansible.builtin.set_fact:
-        user_home: "{{ lookup('env', 'HOME') }}"
+      changed_when: true
+
+    - name: Install NVM (Node Version Manager)
+      ansible.builtin.shell:
+        cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+        creates: "{{ user_home }}/.nvm/nvm.sh"
+      changed_when: true
+      become: false
+
+    - name: Install latest LTS Node.js using NVM and set as default
+      ansible.builtin.shell:
+        cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
+        creates: "{{ user_home }}/.nvm/alias/default"
+      changed_when: true
+      become: false
       
     - name: Install JetBrains Mono Nerd Font (v3.4.0)
       become: false
@@ -83,11 +162,18 @@
             state: directory
             mode: '0755'
 
+        - name: Check if expected font file already exists
+          ansible.builtin.stat:
+            path: "{{ expected_font_file_check }}"
+          register: jetbrains_font_file_stat
+
         - name: Download JetBrains Mono Nerd Font zip (v3.4.0)
           ansible.builtin.get_url:
             url: "{{ font_download_url }}"
             dest: "{{ font_zip_temp_path }}"
             mode: '0644'
+          when: not jetbrains_font_file_stat.stat.exists
+          register: font_download_result
 
         - name: Unarchive JetBrains Mono Nerd Font
           ansible.builtin.unarchive:
@@ -101,7 +187,7 @@
           ansible.builtin.file:
             path: "{{ font_zip_temp_path }}"
             state: absent
-          when: font_zip_temp_path is defined and font_zip_temp_path != ""
+          when: font_download_result.changed
 
         - name: Update font cache if fonts were newly installed
           ansible.builtin.command:
@@ -150,3 +236,32 @@
         force: true
         follow: false
       become: false
+
+    - name: Ensure .zsh directory exists
+      ansible.builtin.file:
+        path: "{{ user_home }}/.zsh"
+        state: directory
+        mode: '0755'
+      become: false
+
+    - name: Install zsh-autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ user_home }}/.zsh/zsh-autosuggestions"
+        version: master
+      become: false
+
+    - name: Symlink .zshrc
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/dotfiles/.zshrc"
+        dest: "{{ user_home }}/.zshrc"
+        state: link
+        force: true
+        follow: false
+      become: false
+
+    - name: Change default shell to zsh
+      ansible.builtin.user:
+        name: "{{ ansible_user_id }}"
+        shell: /usr/bin/zsh
+      become: yes
