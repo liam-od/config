@@ -20,11 +20,10 @@ Move over ssh keys to .ssh/
 
 `git remote set-url origin git@github.com:liam-od/config.git`
 
+`chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
 
-Change terminal settings
-    - font, font size
-    - terminal bell
+For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
 brave + sync code.
 
@@ -44,4 +43,3 @@ copy ssh keys into directory before run ansible?
 
 neovim config improvements
 
-Add flag for wsl support: `ansible-playbook playbook.yml -e "is_wsl=true"`
