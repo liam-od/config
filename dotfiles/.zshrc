@@ -1,17 +1,35 @@
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Add /opt/nvim to PATH if it isn't added yet
+case ":${PATH}:" in
+    *:"/opt/nvim":*)
+        ;;
+    *)
+        export PATH="${PATH:+$PATH:}/opt/nvim"
+        ;;
+esac
 
-# Aliases
+# Add $HOME/.local/bin to PATH if it isn't added yet
+case ":${PATH}:" in
+    *:"$HOME/.local/bin":*)
+        ;;
+    *)
+        export PATH="$HOME/.local/bin:$PATH"
+        ;;
+esac
+
+. $HOME$/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
-alias ls='eza --icons -F -H --group-directories-first -git -1'
-alias vim="nvim"
+alias z='eza --icons -F -H --group-directories-first -git -1'
+alias v="nvim"
 
-# Functions
 lmk() {
     if [[ $1 == "-save" ]]; then
         shift
@@ -21,17 +39,4 @@ lmk() {
     fi
 }
 
-# Sourcing
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Bindings
 bindkey '^ ' autosuggest-accept
-
-# Path stuff
-. "$HOME/.local/bin/env"
-
-# Direnv
-eval "$(direnv hook zsh)"
-
-# Nvim
-export PATH="$PATH:/opt/nvim/"
