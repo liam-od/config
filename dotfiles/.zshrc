@@ -23,7 +23,7 @@ case ":${PATH}:" in
         ;;
 esac
 
-. $HOME$/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+. ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
