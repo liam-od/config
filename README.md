@@ -1,24 +1,21 @@
 ## WIP
 
-`sudo apt update`
+First:
+- `sudo apt install git`
+- `git clone https://github.com/liam-od/config.git`
 
-`sudo apt install pipx && git`
+Move over ssh keys to .ssh/, then:
+- `chmod 600 ~/.ssh/liam`
+- `chmod 600 ~/.ssh/enki`
 
-`pipx install ansible-core`
-
-`pipx ensurepath`
-
-`source ~/.bashrc`
-
-`git clone https://github.com/liam-od/config.git`
-
-`ansible-playbook playbook.yml`
-
-Move over ssh keys to .ssh/
-`chmod 600 ~/.ssh/liam`
-`chmod 600 ~/.ssh/enki`
-
-`git remote set-url origin git@github.com:liam-od/config.git`
+Script:
+- `sudo apt update`
+- `sudo apt install pipx`
+- `pipx install ansible-core`
+- `pipx ensurepath` Check if this makes changes to dotfiles.
+- `source ~/.bashrc`
+- `ansible-playbook playbook.yml`
+- `git remote set-url origin git@github.com:liam-od/config.git`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
@@ -38,8 +35,6 @@ Obsidian and zotero setup
 cursor
 
 AI cli
-
-copy ssh keys into directory before run ansible?
 
 neovim config improvements
 
