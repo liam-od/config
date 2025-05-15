@@ -27,8 +27,10 @@ esac
 
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
-alias z='eza --icons -F -H --group-directories-first -git -1'
-alias v="nvim"
+alias ls='eza --icons -F -H --group-directories-first -git -1'
+alias vim="nvim"
+alias gs="git status"
+alias gd="git diff"
 
 lmk() {
     if [[ $1 == "-save" ]]; then

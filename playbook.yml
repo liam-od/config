@@ -1,4 +1,3 @@
-
 - hosts: localhost
   connection: local
   become: yes
@@ -146,7 +145,6 @@
             font_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
             user_font_dir: "{{ user_home }}/.local/share/fonts"
             font_install_dir: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono"
-            expected_font_file_check: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono/JetBrains Mono Regular Nerd Font Complete.ttf"
             font_zip_temp_path: "/tmp/JetBrainsMono_v3.4.0.zip"
             cacheable: yes
 
@@ -162,17 +160,18 @@
             state: directory
             mode: '0755'
 
-        - name: Check if expected font file already exists
-          ansible.builtin.stat:
-            path: "{{ expected_font_file_check }}"
-          register: jetbrains_font_file_stat
+        - name: Check if font installation directory is populated
+          ansible.builtin.find:
+            paths: "{{ font_install_dir }}"
+            file_type: file
+          register: font_install_dir_contents
 
         - name: Download JetBrains Mono Nerd Font zip (v3.4.0)
           ansible.builtin.get_url:
             url: "{{ font_download_url }}"
             dest: "{{ font_zip_temp_path }}"
             mode: '0644'
-          when: not jetbrains_font_file_stat.stat.exists
+          when: font_install_dir_contents.matched == 0
           register: font_download_result
 
         - name: Unarchive JetBrains Mono Nerd Font
@@ -180,7 +179,7 @@
             src: "{{ font_zip_temp_path }}"
             dest: "{{ font_install_dir }}"
             remote_src: yes
-            creates: "{{ expected_font_file_check }}"
+          when: font_install_dir_contents.matched == 0
           register: font_unarchive_result
 
         - name: Clean up downloaded font zip file
