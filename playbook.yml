@@ -277,6 +277,15 @@
         follow: false
       become: false
 
+    - name: Symlink Neovim configuration
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/dotfiles/.config/nvim"
+        dest: "{{ user_home }}/.config/nvim"
+        state: link
+        force: true
+        follow: false
+      become: false
+
     - name: Set Caps Lock as additional Escape key
       ansible.builtin.command:
         cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
