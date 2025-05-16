@@ -34,7 +34,7 @@ return {
     bigfile = { enabled = true },
     indent = { enabled = true },
     explorer = {
-      replace_netrw = true, -- TODO: Need to install finder?
+      replace_netrw = true, -- TODO: Support going up in dir?
     },
     quickfile = {
       exclude = { "lua", "python", "latex", "tex" },

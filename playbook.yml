@@ -44,6 +44,7 @@
         name:
           - build-essential
           - ripgrep
+          - fd-find
           - unzip
           - zsh
           - eza
