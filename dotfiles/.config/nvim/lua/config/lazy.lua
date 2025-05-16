@@ -25,7 +25,7 @@ require("lazy").setup({
 	defaults = {
 		version = "*", -- Get the latest stable version of new plugins
 	},
-	install = { colorscheme = { "nightfly" } },
+	install = { colorscheme = { "catppuccin-macchiato" } },
 	checker = {
 		enabled = false, -- Updates :Lazy sync or :Lazy check
 	},
