@@ -31,12 +31,9 @@ return {
     },
     bigfile = { enabled = true },
     indent = { enabled = true },
-    lazygit = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
-      level = vim.log.levels.TRACE,
-      replace = true,
     },
     explorer = {
       replace_netrw = true,
@@ -55,6 +52,12 @@ return {
     },
     quickfile = {
       exclude = { "lua", "python", "latex", "tex" },
+    },
+    gitbrowse = {
+      remote_patterns = {
+        { "^git@(.+)-enki:(.+)%.git$"              , "https://%1/%2" },
+      }
+
     }
   },
   keys = {
@@ -62,5 +65,8 @@ return {
     { "<leader>fs", function() Snacks.picker.grep() end, desc = "Grep" },
     { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+    { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+    { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit log view" },
+    { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
   },
 }
