@@ -31,6 +31,7 @@ return {
     },
     bigfile = { enabled = true },
     indent = { enabled = true },
+    input = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
@@ -55,10 +56,22 @@ return {
     },
     gitbrowse = {
       remote_patterns = {
-        { "^git@(.+)-enki:(.+)%.git$"              , "https://%1/%2" },
-      }
-
-    }
+        { "^git@(.+)-enki:(.+)%.git$"         , "https://%1/%2" },
+        { "^(https?://.*)%.git$"              , "%1" },
+        { "^git@(.+):(.+)%.git$"              , "https://%1/%2" },
+        { "^git@(.+):(.+)$"                   , "https://%1/%2" },
+        { "^git@(.+)/(.+)$"                   , "https://%1/%2" },
+        { "^org%-%d+@(.+):(.+)%.git$"         , "https://%1/%2" },
+        { "^ssh://git@(.*)$"                  , "https://%1" },
+        { "^ssh://([^:/]+)(:%d+)/(.*)$"       , "https://%1/%3" },
+        { "^ssh://([^/]+)/(.*)$"              , "https://%1/%2" },
+        { "ssh%.dev%.azure%.com/v3/(.*)/(.*)$", "dev.azure.com/%1/_git/%2" },
+        { "^https://%w*@(.*)"                 , "https://%1" },
+        { "^git@(.*)"                         , "https://%1" },
+        { ":%d+"                              , "" },
+        { "%.git$"                            , "" },
+      },
+    },
   },
   keys = {
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
