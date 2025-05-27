@@ -40,3 +40,13 @@ neovim config improvements
 
 add support for lazygit install
 
+add gitsigns (or mini.diff?), cool blame line.
+
+diffview.nvim ?
+
+lualine
+
+terminal stuff
+
+
+

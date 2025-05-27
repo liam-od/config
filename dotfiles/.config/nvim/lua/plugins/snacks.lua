@@ -32,6 +32,7 @@ return {
     bigfile = { enabled = true },
     indent = { enabled = true },
     input = { enabled = true },
+    statuscolumn = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
