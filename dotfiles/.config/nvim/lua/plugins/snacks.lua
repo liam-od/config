@@ -2,7 +2,6 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
-  ---@type snacks.Config
   opts = {
     dashboard = {
       preset = {
@@ -17,9 +16,8 @@ return {
         ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
         ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
  ]],
-        -- stylua: ignore
-        ---@type snacks.dashboard.Item[]
         keys = {
+
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
@@ -33,11 +31,36 @@ return {
     },
     bigfile = { enabled = true },
     indent = { enabled = true },
+    lazygit = { enabled = true },
+    notifier = {
+      enabled = true,
+      timeout = 3000,
+      level = vim.log.levels.TRACE,
+      replace = true,
+    },
     explorer = {
-      replace_netrw = true, -- TODO: Support going up in dir?
+      replace_netrw = true,
+    },
+    picker = {
+      sources = {
+        explorer = {
+          exclude = { ".venv/", "undodir/", ".git/" },
+        },
+        files = {
+          hidden = true,
+          ignored = true,
+          exclude = { ".venv/", "undodir/", ".git/" },
+        },
+      }
     },
     quickfile = {
       exclude = { "lua", "python", "latex", "tex" },
     }
+  },
+  keys = {
+    { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+    { "<leader>fs", function() Snacks.picker.grep() end, desc = "Grep" },
+    { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
   },
 }

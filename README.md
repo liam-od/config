@@ -38,3 +38,5 @@ AI cli
 
 neovim config improvements
 
+add support for lazygit install
+
