@@ -52,15 +52,8 @@
           - curl
           - python3-pip
           - python3-venv
-          - flatpak
         state: present
       when: ansible_os_family == "Debian"
-
-    - name: Add Flathub repository
-      ansible.builtin.command:
-        cmd: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      changed_when: true
-      become: false
 
     - name: Install uv
       ansible.builtin.shell:
@@ -301,26 +294,54 @@
       changed_when: true
       when: not is_wsl | default(false)
 
-    - name: Install WezTerm via Flatpak
-      ansible.builtin.command:
-        cmd: flatpak install --noninteractive flathub org.wezfurlong.wezterm
-      changed_when: true
-      become: false
+    - name: Ensure /usr/share/keyrings directory exists for WezTerm key
+      ansible.builtin.file:
+        path: /usr/share/keyrings
+        state: directory
+        mode: '0755'
+      become: yes
+      when: ansible_os_family == "Debian"
 
-    - name: Set WezTerm as the default terminal executable
-      ansible.builtin.command:
-        cmd: gsettings set org.gnome.desktop.default-applications.terminal exec 'flatpak run org.wezfurlong.wezterm start'
-      become: false
-      changed_when: true
-      when: not is_wsl | default(false)
+    - name: Add WezTerm APT GPG key
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://apt.fury.io/wez/gpg.key | gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+        creates: /usr/share/keyrings/wezterm-fury.gpg
+      become: yes
+      changed_when: true # Heuristic: if the command runs, assume change or check creates
+      when: ansible_os_family == "Debian"
 
-    - name: Set the argument for WezTerm to execute commands
-      ansible.builtin.command:
-        cmd: gsettings set org.gnome.desktop.default-applications.terminal exec-arg '--'
-      become: false
-      changed_when: true
-      when: not is_wsl | default(false)
-      
+    - name: Ensure WezTerm GPG key has correct permissions
+      ansible.builtin.file:
+        path: /usr/share/keyrings/wezterm-fury.gpg
+        mode: '0644'
+      become: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Add WezTerm APT repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/wezterm.list
+        content: "deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *"
+        mode: '0644'
+      become: yes
+      register: wezterm_repo_added
+      when: ansible_os_family == "Debian"
+
+    - name: Update apt cache after adding WezTerm repository
+      ansible.builtin.apt:
+        update_cache: yes
+      when:
+        - ansible_os_family == "Debian"
+        - wezterm_repo_added.changed
+      become: yes
+      changed_when: false # The change is the update itself, not a package install
+
+    - name: Install WezTerm via APT
+      ansible.builtin.apt:
+        name: wezterm
+        state: present
+      become: yes
+      when: ansible_os_family == "Debian"
+
     - name: Symlink WezTerm configuration
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"

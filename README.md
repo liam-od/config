@@ -26,9 +26,9 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
 #### System Setup
 - [] Install lazygit binary
-- [X] Install flatpak (with flathub repo)
-- [X] Install WezTerm via flatpak
+- [X] Install WezTerm
 - [X] Symlink `.wezterm.lua`
+- [] Change cursor speed
 
 #### Neovim Config
 - [ ] Finish mini.nvim setup
