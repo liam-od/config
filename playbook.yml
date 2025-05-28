@@ -52,8 +52,15 @@
           - curl
           - python3-pip
           - python3-venv
+          - flatpak
         state: present
       when: ansible_os_family == "Debian"
+
+    - name: Add Flathub repository
+      ansible.builtin.command:
+        cmd: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      changed_when: true
+      become: false
 
     - name: Install uv
       ansible.builtin.shell:
@@ -294,32 +301,31 @@
       changed_when: true
       when: not is_wsl | default(false)
 
-    - name: Get default GNOME Terminal profile ID
-      ansible.builtin.shell:
-        cmd: gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'"
-      register: gnome_terminal_default_profile_id
-      changed_when: false
-      check_mode: no
-      become: false
-      when: not is_wsl | default(false)
-
-    - name: Set GNOME Terminal to use custom font
+    - name: Install WezTerm via Flatpak
       ansible.builtin.command:
-        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ use-system-font false"
+        cmd: flatpak install --noninteractive flathub org.wezfurlong.wezterm
+      changed_when: true
+      become: false
+
+    - name: Set WezTerm as the default terminal executable
+      ansible.builtin.command:
+        cmd: gsettings set org.gnome.desktop.default-applications.terminal exec 'flatpak run org.wezfurlong.wezterm start'
       become: false
       changed_when: true
       when: not is_wsl | default(false)
 
-    - name: Set GNOME Terminal font to JetBrains Mono Nerd Font 12
+    - name: Set the argument for WezTerm to execute commands
       ansible.builtin.command:
-        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ font 'JetBrainsMono Nerd Font 12'"
+        cmd: gsettings set org.gnome.desktop.default-applications.terminal exec-arg '--'
       become: false
       changed_when: true
       when: not is_wsl | default(false)
-
-    - name: Disable GNOME Terminal audible bell
-      ansible.builtin.command:
-        cmd: "gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ gnome_terminal_default_profile_id.stdout | default('') }}/ audible-bell false"
+      
+    - name: Symlink WezTerm configuration
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"
+        dest: "{{ user_home }}/.wezterm.lua"
+        state: link
+        force: true
+        follow: false
       become: false
-      changed_when: true
-      when: not is_wsl | default(false)
