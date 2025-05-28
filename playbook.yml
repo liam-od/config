@@ -329,3 +329,77 @@
         force: true
         follow: false
       become: false
+
+    - name: Get latest Lazygit version string from GitHub API
+      ansible.builtin.shell:
+        cmd: >
+          curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" |
+          grep -Po '"tag_name": *"v\K[^"]*'
+      register: lazygit_latest_version_raw
+      changed_when: false # This command only retrieves information
+      check_mode: no # Ensure it runs even in check mode to get the version
+      become: false
+
+    - name: Set Lazygit version fact
+      ansible.builtin.set_fact:
+        lazygit_version: "{{ lazygit_latest_version_raw.stdout | trim }}"
+      when: lazygit_latest_version_raw.stdout is defined and lazygit_latest_version_raw.stdout != ""
+
+    - name: Set Lazygit download variables
+      ansible.builtin.set_fact:
+        lazygit_download_url: "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
+        lazygit_temp_path: "/tmp/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
+      when: lazygit_version is defined
+
+    - name: Download Lazygit archive
+      ansible.builtin.get_url:
+        url: "{{ lazygit_download_url }}"
+        dest: "{{ lazygit_temp_path }}"
+        mode: '0644'
+      register: lazygit_download_result
+      when: lazygit_version is defined
+      become: false # Downloading to /tmp as user should be fine
+
+    - name: Set Lazygit executable paths
+      ansible.builtin.set_fact:
+        lazygit_executable_temp_path: "/tmp/lazygit"
+        lazygit_install_path: "/usr/local/bin/lazygit"
+      when: lazygit_version is defined
+
+    - name: Unarchive Lazygit binary to /tmp
+      ansible.builtin.unarchive:
+        src: "{{ lazygit_temp_path }}"
+        dest: "/tmp/"
+        include: ['lazygit']
+        remote_src: yes
+        creates: "{{ lazygit_executable_temp_path }}" # Ensures idempotency for this step
+      become: false
+      when: lazygit_download_result.changed
+      register: lazygit_unarchive_result
+
+    - name: Install Lazygit binary to /usr/local/bin
+      ansible.builtin.copy:
+        src: "{{ lazygit_executable_temp_path }}"
+        dest: "{{ lazygit_install_path }}"
+        remote_src: yes
+        mode: '0755'
+        owner: root
+        group: root
+      become: yes
+      when: lazygit_unarchive_result.changed
+
+    - name: Clean up downloaded Lazygit archive
+      ansible.builtin.file:
+        path: "{{ lazygit_temp_path }}"
+        state: absent
+      when: lazygit_download_result.changed
+      become: false
+
+    - name: Clean up extracted Lazygit binary from /tmp
+      ansible.builtin.file:
+        path: "{{ lazygit_executable_temp_path }}"
+        state: absent
+      when: lazygit_unarchive_result.changed
+      become: false
+
+      
