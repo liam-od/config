@@ -48,5 +48,7 @@ lualine
 
 terminal stuff
 
+install flatpak and wezterm
+
 
 
