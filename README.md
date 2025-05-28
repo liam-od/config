@@ -22,6 +22,22 @@ Login and out for the shell changes to take effect.
 
 For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
+### Next
+
+#### System Setup
+- [] Install lazygit binary
+- [X] Install WezTerm
+- [X] Symlink `.wezterm.lua`
+- [] Change cursor speed
+
+#### Neovim Config
+- [ ] Finish mini.nvim setup
+- [ ] Add lualine
+- [ ] Add gitsigns (cool blame line)
+- [ ] Add diffview
+- [ ] Set up LSP
+- [ ] Set up Copilot (free for student) / aider
+
 brave + sync code.
 
 proton vpn
@@ -33,22 +49,3 @@ Install texlive stuff (+ thesis theme)
 Obsidian and zotero setup
 
 cursor
-
-AI cli
-
-neovim config improvements
-
-add support for lazygit install
-
-add gitsigns (or mini.diff?), cool blame line.
-
-diffview.nvim ?
-
-lualine
-
-terminal stuff
-
-install flatpak and wezterm
-
-
-
