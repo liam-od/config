@@ -8,6 +8,8 @@ Move over ssh keys to .ssh/, then:
 - `chmod 600 ~/.ssh/liam`
 - `chmod 600 ~/.ssh/enki`
 
+Move over `.env` file
+
 Script:
 - `sudo apt update`
 - `sudo apt install pipx`
@@ -20,15 +22,19 @@ Script:
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
 
+We can now run `wezterm` to use our new terminal
+
 For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
-### Next
+### TODO
 
 #### System Setup
-- [] Install lazygit binary
+- [X] Install lazygit binary
 - [X] Install WezTerm
 - [X] Symlink `.wezterm.lua`
-- [] Change cursor speed
+- [ ] Change cursor speed
+- [ ] Latex support (texlive, thesis theme)
+- [ ] Obsidian and Zotero
 
 #### Neovim Config
 - [ ] Finish mini.nvim setup
@@ -37,15 +43,12 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 - [ ] Add diffview
 - [ ] Set up LSP
 - [ ] Set up Copilot (free for student) / aider
+- [ ] Obsidian and Zotero
 
-brave + sync code.
+#### Nice to haves
 
-proton vpn
-
-librewolf
-
-Install texlive stuff (+ thesis theme)
-
-Obsidian and zotero setup
-
-cursor
+- [ ] Refactor playbook with roles
+- [ ] Brave + sync code
+- [ ] Proton VPN
+- [ ] Librewolf
+- [ ] Cursor IDE
