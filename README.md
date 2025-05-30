@@ -43,6 +43,8 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
     - [ ] Map
     - [ ] Files
     - [ ] Bracketed
+- [ ] Bufferline (or Tabline)
+- [ ] Persistence (or another session manager)
 - [ ] Add lualine
 - [ ] Add gitsigns (cool blame line)
 - [ ] Add diffview
