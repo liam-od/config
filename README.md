@@ -32,12 +32,17 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 - [X] Install lazygit binary
 - [X] Install WezTerm
 - [X] Symlink `.wezterm.lua`
-- [ ] Change cursor speed
+- [X] Change cursor speed
 - [ ] Latex support (texlive, thesis theme)
 - [ ] Obsidian and Zotero
 
 #### Neovim Config
 - [ ] Finish mini.nvim setup
+    - [ ] Tabline
+    - [ ] Trailspace
+    - [ ] Map
+    - [ ] Files
+    - [ ] Bracketed
 - [ ] Add lualine
 - [ ] Add gitsigns (cool blame line)
 - [ ] Add diffview
@@ -47,6 +52,7 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
 #### Nice to haves
 
+- [ ] Terminal completion
 - [ ] Refactor playbook with roles
 - [ ] Brave + sync code
 - [ ] Proton VPN
