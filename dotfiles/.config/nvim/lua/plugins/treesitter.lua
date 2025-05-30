@@ -16,6 +16,11 @@ return {
         highlight = {
           enable = true,
         },
+        textobjects = {
+          select = {
+            enable = false,
+          },
+        },
         -- enable indentation
         indent = { enable = true },
         -- enable autotagging (w/ nvim-ts-autotag plugin)
