@@ -32,7 +32,7 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 - [X] Tabs
 - [X] Picker open files in splits or tabs
 - [X] Lualine
-- [ ] Git (gitsigns and diffview)
+- [X] Git (gitsigns and diffview)
 - [ ] Popup terminal support (with REPL)
 - [ ] LSP
 - [ ] Copilot (copilot cli, copilot chat, aider support?)
