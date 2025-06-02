@@ -4,6 +4,7 @@ return {
     require('mini.ai').setup({})
     require("mini.surround").setup({})
     require("mini.icons").setup({})
+    MiniIcons.mock_nvim_web_devicons()
 		require("mini.pairs").setup({
       modes = { insert = true, command = false, terminal = false },
       mappings = {
