@@ -16,3 +16,6 @@ keymap.set("t", "<C-w><C-w>", "<C-\\><C-n><C-w><C-w>", { desc = "Switch window f
 -- gt goes to next tab <x>gt goes tab number x, i.e 2gt.
 -- gT goes to previous tab
 keymap.set("n", "tn", ":tabnew<CR>", { desc = "Create new tab" })
+
+-- Comments
+-- <leader>gc comments selection
