@@ -423,4 +423,18 @@
       when: lazygit_unarchive_result.changed
       become: false
 
+    - name: Set keyboard repeat interval (lower is faster)
+      ansible.builtin.command:
+        cmd: gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 15
+      become: false
+      changed_when: true
+      when: not is_wsl | default(false)
+
+    - name: Set keyboard repeat delay
+      ansible.builtin.command:
+        cmd: gsettings set org.gnome.desktop.peripherals.keyboard delay 200
+      become: false
+      changed_when: true
+      when: not is_wsl | default(false)
+
       
