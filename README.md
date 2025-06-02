@@ -28,35 +28,35 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
 ### TODO
 
-#### System Setup
+#### Next
+- [X] Tabs
+- [X] Picker open files in splits or tabs
+- [ ] Lualine
+- [ ] Git (gitsigns and diffview)
+- [ ] Popup terminal support (with REPL)
+- [ ] LSP
+- [ ] Copilot (copilot cli, copilot chat, aider support?)
+- [ ] Tmux (with session management, persistence? SessionX?)
+
+#### Ansible
 - [X] Install lazygit binary
 - [X] Install WezTerm
 - [X] Symlink `.wezterm.lua`
 - [X] Change cursor speed
 - [ ] Latex support (texlive, thesis theme)
-- [ ] Obsidian and Zotero
+- [ ] Obsidian and Zotero (with nvim stuff)
 
-#### Neovim Config
-- [ ] Finish mini.nvim setup
-    - [ ] Tabline
-    - [ ] Trailspace
-    - [ ] Map
-    - [ ] Files
-    - [ ] Bracketed
-- [ ] Bufferline (or Tabline)
-- [ ] Persistence (or another session manager)
-- [ ] Add lualine
-- [ ] Add gitsigns (cool blame line)
-- [ ] Add diffview
-- [ ] Set up LSP
-- [ ] Set up Copilot (free for student) / aider
-- [ ] Obsidian and Zotero
+#### Plugins to try
+- [ ] MINI.MAP
+- [ ] MINI.FILES
+- [ ] MINI.BRACKETED
+- [ ] MINI.SNIPPETS
+- [ ] MINI.TABLINE
+- [ ] Bufferline.nvim
 
 #### Nice to haves
-
-- [ ] Terminal completion
+- [ ] Terminal completion (i.e Fig)
 - [ ] Refactor playbook with roles
 - [ ] Brave + sync code
 - [ ] Proton VPN
 - [ ] Librewolf
-- [ ] Cursor IDE

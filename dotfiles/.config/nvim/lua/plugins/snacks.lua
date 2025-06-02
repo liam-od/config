@@ -44,6 +44,13 @@ return {
       sources = {
         explorer = {
           exclude = { ".venv/", "undodir/", ".git/" },
+          win = {
+            list = {
+              keys = {
+                ["<c-t>"] = { "edit_tab", mode = { "n", "i" } },
+              },
+            },
+          },
         },
         files = {
           hidden = true,

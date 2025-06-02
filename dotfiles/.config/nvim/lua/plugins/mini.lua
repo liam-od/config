@@ -1,6 +1,9 @@
 return {
   "echasnovski/mini.nvim",
   config = function()
+    require('mini.ai').setup({})
+    require("mini.surround").setup({})
+    require("mini.icons").setup({})
 		require("mini.pairs").setup({
       modes = { insert = true, command = false, terminal = false },
       mappings = {
@@ -17,7 +20,5 @@ return {
         ['`'] = { action = 'closeopen', pair = '``', neigh_pattern = '[^\\].', register = { cr = false } },
       },
     })
-    require('mini.ai').setup({})
-    require("mini.surround").setup({})
   end,
 }
