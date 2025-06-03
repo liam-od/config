@@ -17,6 +17,7 @@ return {
     local ensure_installed = {
       -- LSP
       "lua-language-server",
+      "pyright",
 
       -- Formatters
       "stylua",
