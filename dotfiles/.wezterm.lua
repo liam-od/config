@@ -21,6 +21,6 @@ config.window_padding = {
 }
 
 config.audible_bell = "Disabled"
-config.max_fps = 144
+-- config.max_fps = 144
 
 return config
