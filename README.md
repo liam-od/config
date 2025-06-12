@@ -18,6 +18,7 @@ Script:
 - `source ~/.bashrc`
 - `ansible-playbook playbook.yml`
 - `git remote set-url origin git@github.com:liam-od/config.git`
+- `npm install -g tree-sitter-cli`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
