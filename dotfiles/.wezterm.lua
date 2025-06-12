@@ -3,11 +3,13 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
-config.initial_cols = 240
-config.initial_rows = 120
+config.initial_cols = 120
+config.initial_rows = 60
 
-config.font_size = 12
-font = wezterm.font('JetBrains Mono')
+config.font_size = 13
+config.font = wezterm.font('Hack Nerd Font')
+-- config.font = wezterm.font('JetBrains Mono')
+-- config.font = wezterm.font('Monaspace Neon Frozen')
 
 config.color_scheme = 'Catppuccin Mocha'
 config.window_background_opacity = 1.0
@@ -21,7 +23,10 @@ config.window_padding = {
 }
 
 config.audible_bell = "Disabled"
+
 config.max_fps = 144
-config.front_end = "OpenGL"
+config.animation_fps = 144
+config.front_end = "WebGpu"
+config.use_ime = false
 
 return config

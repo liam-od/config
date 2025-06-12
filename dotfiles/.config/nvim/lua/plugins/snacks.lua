@@ -41,6 +41,7 @@ return {
       replace_netrw = true,
     },
     picker = {
+      ui_select = true,
       sources = {
         explorer = {
           exclude = { ".venv/", "undodir/", ".git/" },
