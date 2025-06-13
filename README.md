@@ -19,6 +19,7 @@ Script:
 - `ansible-playbook playbook.yml`
 - `git remote set-url origin git@github.com:liam-od/config.git`
 - `npm install -g tree-sitter-cli`
+- `curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
@@ -30,12 +31,13 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 ### TODO
 
 #### Next
+- [X] Install and configure zoxide
 - [X] Tabs
 - [X] Picker open files in splits or tabs
 - [X] Lualine
 - [X] Git (gitsigns and diffview)
 - [ ] Popup terminal support (with REPL)
-- [ ] LSP
+- [X] LSP
 - [ ] Copilot (copilot cli, copilot chat, aider support?)
 - [ ] Tmux (with session management, persistence? SessionX?)
 

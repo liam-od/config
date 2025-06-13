@@ -45,6 +45,7 @@
           - build-essential
           - ripgrep
           - fd-find
+          - fzf
           - unzip
           - zsh
           - eza

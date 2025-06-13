@@ -1,3 +1,8 @@
+local function find_root()
+	local root = vim.fs.find({ ".git" }, { upward = true, type = "directory", stop = vim.fn.expand("~"), limit = 1 })
+	return vim.fs.dirname(unpack(root)) or vim.fn.getcwd()
+end
+
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -101,14 +106,14 @@ return {
 		{
 			"<leader>ff",
 			function()
-				Snacks.picker.files()
+				Snacks.picker.files({ cwd = find_root() })
 			end,
 			desc = "Find Files",
 		},
 		{
 			"<leader>fs",
 			function()
-				Snacks.picker.grep()
+				Snacks.picker.grep({ cwd = find_root() })
 			end,
 			desc = "Grep",
 		},

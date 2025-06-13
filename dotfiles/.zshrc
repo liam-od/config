@@ -1,5 +1,6 @@
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -24,10 +25,19 @@ case ":${PATH}:" in
 esac
 
 . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
 
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
 alias ls='eza --icons -F -H --group-directories-first -git -1'
+alias cd="z"
 alias vim="nvim"
 alias gs="git status"
 alias gd="git diff"
