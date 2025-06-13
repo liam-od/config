@@ -1,4 +1,3 @@
-
 local keymap = vim.keymap
 
 keymap.set("n", "zz", ":write<CR>", { desc = "Save current file", silent = true })

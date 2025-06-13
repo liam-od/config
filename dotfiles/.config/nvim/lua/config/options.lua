@@ -7,6 +7,7 @@ end
 -- General Editor Settings
 vim.o.number = true -- Show line numbers
 --vim.o.relativenumber = true -- Show relative line numbers
+vim.o.autochdir = true -- Change working directory to the file's directory
 
 -- Tab & Indentation Settings
 vim.o.tabstop = 4 -- Number of spaces that a <Tab> in the file counts for
