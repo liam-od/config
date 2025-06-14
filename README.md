@@ -20,6 +20,10 @@ Script:
 - `git remote set-url origin git@github.com:liam-od/config.git`
 - `npm install -g tree-sitter-cli`
 - `curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh`
+- `curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh`
+- `mv ~/.atuin/bin/atuin ~/.local/bin/atuin`
+- `mv ~/.atuin/bin/atuin-update ~/.local/bin/atuin-update`
+- `rm -rf ~./atuin`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
@@ -32,6 +36,8 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 
 #### Next
 - [X] Install and configure zoxide
+- [X] Replace .zsh_history with atuin
+- [ ] Configure history syncing with atuin register
 - [X] Tabs
 - [X] Picker open files in splits or tabs
 - [X] Lualine

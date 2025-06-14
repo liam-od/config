@@ -1,5 +1,6 @@
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
@@ -25,14 +26,7 @@ case ":${PATH}:" in
 esac
 
 . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000
-SAVEHIST=10000
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_VERIFY
-setopt SHARE_HISTORY
-setopt APPEND_HISTORY
-setopt INC_APPEND_HISTORY
+bindkey '^ ' autosuggest-accept
 
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
@@ -41,6 +35,9 @@ alias cd="z"
 alias vim="nvim"
 alias gs="git status"
 alias gd="git diff"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
 
 lmk() {
     if [[ $1 == "-save" ]]; then
@@ -50,5 +47,3 @@ lmk() {
         latexmk -pdf -synctex=1 -interaction=nonstopmode -pvc -outdir=build "$@"
     fi
 }
-
-bindkey '^ ' autosuggest-accept
