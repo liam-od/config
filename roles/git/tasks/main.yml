@@ -1,0 +1,12 @@
+---
+- name: Create .gitconfig from template
+  ansible.builtin.template:
+    src: gitconfig.j2
+    dest: "{{ user_home }}/.gitconfig"
+    mode: "0644"
+
+- name: Create .gitconfig-enki from template
+  ansible.builtin.template:
+    src: gitconfig-enki.j2
+    dest: "{{ user_home }}/.gitconfig-enki"
+    mode: "0644"

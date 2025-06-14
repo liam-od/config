@@ -10,6 +10,8 @@
         - tools
         - fonts
         - symlinks
+        - system
+        - git
 
   roles:
     - role: base
@@ -23,3 +25,9 @@
 
     - role: symlinks
       tags: symlinks
+
+    - role: system
+      tags: system
+
+    - role: git
+      tags: git

@@ -2,438 +2,438 @@
 #   connection: local
 #   become: yes
 
-pre_tasks:
-  - name: Load environment variables from .env file
-    ansible.builtin.include_vars:
-      file: "{{ playbook_dir }}/.env"
-      name: env_vars
-    become: false
+# pre_tasks:
+#   - name: Load environment variables from .env file
+#     ansible.builtin.include_vars:
+#       file: "{{ playbook_dir }}/.env"
+#       name: env_vars
+#     become: false
+#
+#   - name: Set Git variables
+#     ansible.builtin.set_fact:
+#       git_user_name: "{{ env_vars.GIT_USER_NAME }}"
+#       git_user_email: "{{ env_vars.GIT_USER_EMAIL }}"
+#       git_enki_name: "{{ env_vars.GIT_ENKI_NAME }}"
+#       git_enki_email: "{{ env_vars.GIT_ENKI_EMAIL }}"
+#     become: false
 
-  - name: Set Git variables
-    ansible.builtin.set_fact:
-      git_user_name: "{{ env_vars.GIT_USER_NAME }}"
-      git_user_email: "{{ env_vars.GIT_USER_EMAIL }}"
-      git_enki_name: "{{ env_vars.GIT_ENKI_NAME }}"
-      git_enki_email: "{{ env_vars.GIT_ENKI_EMAIL }}"
-    become: false
+# - name: Update apt cache (for Debian/Ubuntu)
+#   ansible.builtin.apt:
+#     update_cache: yes
+#     cache_valid_time: 3600
+#   changed_when: false
+#   when: ansible_os_family == "Debian"
 
-  # - name: Update apt cache (for Debian/Ubuntu)
-  #   ansible.builtin.apt:
-  #     update_cache: yes
-  #     cache_valid_time: 3600
-  #   changed_when: false
-  #   when: ansible_os_family == "Debian"
+# roles:
+# Roles will be defined here
+# Example:
+# - common
+# - webserver
 
-  # roles:
-  # Roles will be defined here
-  # Example:
-  # - common
-  # - webserver
+# tasks:
+#   - name: Print a message
+#     ansible.builtin.debug:
+#       msg: "Development environment setup started!"
+#
+#   - name: Set user home directory
+#     ansible.builtin.set_fact:
+#       user_home: "{{ lookup('env', 'HOME') }}"
+#
+#   - name: Install essential and additional development tools
+#     ansible.builtin.apt:
+#       name:
+#         - build-essential
+#         - ripgrep
+#         - fd-find
+#         - fzf
+#         - unzip
+#         - zsh
+#         - eza
+#         - git
+#         - curl
+#         - python3-pip
+#         - python3-venv
+#       state: present
+#     when: ansible_os_family == "Debian"
+#
+#   - name: Install uv
+#     ansible.builtin.shell:
+#       cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
+#       creates: "{{ user_home }}/.local/bin/uv"
+#     changed_when: true
+#     become: false
+#
+#   - name: Install direnv
+#     ansible.builtin.shell:
+#       cmd: curl -sfL https://direnv.net/install.sh | bash
+#       creates: "{{ user_home }}/.local/bin/direnv"
+#     changed_when: true
+#     become: false
 
-  # tasks:
-  #   - name: Print a message
-  #     ansible.builtin.debug:
-  #       msg: "Development environment setup started!"
-  #
-  #   - name: Set user home directory
-  #     ansible.builtin.set_fact:
-  #       user_home: "{{ lookup('env', 'HOME') }}"
-  #
-  #   - name: Install essential and additional development tools
-  #     ansible.builtin.apt:
-  #       name:
-  #         - build-essential
-  #         - ripgrep
-  #         - fd-find
-  #         - fzf
-  #         - unzip
-  #         - zsh
-  #         - eza
-  #         - git
-  #         - curl
-  #         - python3-pip
-  #         - python3-venv
-  #       state: present
-  #     when: ansible_os_family == "Debian"
-  #
-  #   - name: Install uv
-  #     ansible.builtin.shell:
-  #       cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
-  #       creates: "{{ user_home }}/.local/bin/uv"
-  #     changed_when: true
-  #     become: false
-  #
-  #   - name: Install direnv
-  #     ansible.builtin.shell:
-  #       cmd: curl -sfL https://direnv.net/install.sh | bash
-  #       creates: "{{ user_home }}/.local/bin/direnv"
-  #     changed_when: true
-  #     become: false
+# - name: Set Neovim installation variables
+#   ansible.builtin.set_fact:
+#     nvim_appimage_url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+#     nvim_appimage_temp_path: "/tmp/nvim-linux-x86_64.appimage"
+#     nvim_install_dir: "/opt/nvim"
+#     nvim_executable_path: "/opt/nvim/nvim"
+#     cacheable: yes
+#
+# - name: Check if Neovim is already installed
+#   ansible.builtin.stat:
+#     path: "{{ nvim_executable_path }}"
+#   register: nvim_installed_stat
+#
+# - name: Install Neovim AppImage
+#   become: yes
+#   block:
+#     - name: Download Neovim AppImage
+#       ansible.builtin.get_url:
+#         url: "{{ nvim_appimage_url }}"
+#         dest: "{{ nvim_appimage_temp_path }}"
+#         mode: "0644"
+#       become: false
+#       register: nvim_download_result
+#
+#     - name: Ensure Neovim installation directory {{ nvim_install_dir }} exists
+#       ansible.builtin.file:
+#         path: "{{ nvim_install_dir }}"
+#         state: directory
+#         mode: "0755"
+#         owner: root
+#         group: root
+#
+#     - name: Move Neovim AppImage to {{ nvim_executable_path }} and set permissions
+#       ansible.builtin.copy:
+#         src: "{{ nvim_appimage_temp_path }}"
+#         dest: "{{ nvim_executable_path }}"
+#         remote_src: yes
+#         mode: "0755"
+#         owner: root
+#         group: root
+#
+#   when: not nvim_installed_stat.stat.exists
+#
+# - name: Clean up downloaded Neovim AppImage
+#   ansible.builtin.file:
+#     path: "{{ nvim_appimage_temp_path }}"
+#     state: absent
+#   when: nvim_download_result is defined and nvim_download_result.changed
 
-  # - name: Set Neovim installation variables
-  #   ansible.builtin.set_fact:
-  #     nvim_appimage_url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
-  #     nvim_appimage_temp_path: "/tmp/nvim-linux-x86_64.appimage"
-  #     nvim_install_dir: "/opt/nvim"
-  #     nvim_executable_path: "/opt/nvim/nvim"
-  #     cacheable: yes
-  #
-  # - name: Check if Neovim is already installed
-  #   ansible.builtin.stat:
-  #     path: "{{ nvim_executable_path }}"
-  #   register: nvim_installed_stat
-  #
-  # - name: Install Neovim AppImage
-  #   become: yes
-  #   block:
-  #     - name: Download Neovim AppImage
-  #       ansible.builtin.get_url:
-  #         url: "{{ nvim_appimage_url }}"
-  #         dest: "{{ nvim_appimage_temp_path }}"
-  #         mode: "0644"
-  #       become: false
-  #       register: nvim_download_result
-  #
-  #     - name: Ensure Neovim installation directory {{ nvim_install_dir }} exists
-  #       ansible.builtin.file:
-  #         path: "{{ nvim_install_dir }}"
-  #         state: directory
-  #         mode: "0755"
-  #         owner: root
-  #         group: root
-  #
-  #     - name: Move Neovim AppImage to {{ nvim_executable_path }} and set permissions
-  #       ansible.builtin.copy:
-  #         src: "{{ nvim_appimage_temp_path }}"
-  #         dest: "{{ nvim_executable_path }}"
-  #         remote_src: yes
-  #         mode: "0755"
-  #         owner: root
-  #         group: root
-  #
-  #   when: not nvim_installed_stat.stat.exists
-  #
-  # - name: Clean up downloaded Neovim AppImage
-  #   ansible.builtin.file:
-  #     path: "{{ nvim_appimage_temp_path }}"
-  #     state: absent
-  #   when: nvim_download_result is defined and nvim_download_result.changed
+# - name: Install Starship prompt
+#   ansible.builtin.shell:
+#     cmd: curl -sS https://starship.rs/install.sh | sh -s -- --yes
+#     creates: /usr/local/bin/starship
+#   changed_when: true
+#
+# - name: Install NVM (Node Version Manager)
+#   ansible.builtin.shell:
+#     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+#     creates: "{{ user_home }}/.nvm/nvm.sh"
+#   changed_when: true
+#   become: false
 
-  # - name: Install Starship prompt
-  #   ansible.builtin.shell:
-  #     cmd: curl -sS https://starship.rs/install.sh | sh -s -- --yes
-  #     creates: /usr/local/bin/starship
-  #   changed_when: true
-  #
-  # - name: Install NVM (Node Version Manager)
-  #   ansible.builtin.shell:
-  #     cmd: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-  #     creates: "{{ user_home }}/.nvm/nvm.sh"
-  #   changed_when: true
-  #   become: false
+# - name: Install latest LTS Node.js using NVM and set as default
+#   ansible.builtin.shell:
+#     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
+#     creates: "{{ user_home }}/.nvm/alias/default"
+#   changed_when: true
+#   become: false
 
-  # - name: Install latest LTS Node.js using NVM and set as default
-  #   ansible.builtin.shell:
-  #     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
-  #     creates: "{{ user_home }}/.nvm/alias/default"
-  #   changed_when: true
-  #   become: false
+# - name: Install JetBrains Mono Nerd Font (v3.4.0)
+#   become: false
+#   block:
+#     - name: Define font paths and URL
+#       ansible.builtin.set_fact:
+#         font_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
+#         user_font_dir: "{{ user_home }}/.local/share/fonts"
+#         font_install_dir: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono"
+#         font_zip_temp_path: "/tmp/JetBrainsMono_v3.4.0.zip"
+#         cacheable: yes
+#
+#     - name: Ensure user font base directory exists
+#       ansible.builtin.file:
+#         path: "{{ user_font_dir }}"
+#         state: directory
+#         mode: "0755"
+#
+#     - name: Ensure specific font installation directory exists
+#       ansible.builtin.file:
+#         path: "{{ font_install_dir }}"
+#         state: directory
+#         mode: "0755"
+#
+#     - name: Check if font installation directory is populated
+#       ansible.builtin.find:
+#         paths: "{{ font_install_dir }}"
+#         file_type: file
+#       register: font_install_dir_contents
+#
+#     - name: Download JetBrains Mono Nerd Font zip (v3.4.0)
+#       ansible.builtin.get_url:
+#         url: "{{ font_download_url }}"
+#         dest: "{{ font_zip_temp_path }}"
+#         mode: "0644"
+#       when: font_install_dir_contents.matched == 0
+#       register: font_download_result
+#
+#     - name: Unarchive JetBrains Mono Nerd Font
+#       ansible.builtin.unarchive:
+#         src: "{{ font_zip_temp_path }}"
+#         dest: "{{ font_install_dir }}"
+#         remote_src: yes
+#       when: font_install_dir_contents.matched == 0
+#       register: font_unarchive_result
+#
+#     - name: Clean up downloaded font zip file
+#       ansible.builtin.file:
+#         path: "{{ font_zip_temp_path }}"
+#         state: absent
+#       when: font_download_result.changed
+#
+#     - name: Update font cache if fonts were newly installed
+#       ansible.builtin.command:
+#         cmd: fc-cache -fv
+#       when:
+#         - font_unarchive_result.changed
+#         - not is_wsl | default(false)
+#       changed_when: true
+#
+#   tags:
+#     - fonts
+#     - nerdfonts
+#     - jetbrainsmono
 
-  # - name: Install JetBrains Mono Nerd Font (v3.4.0)
-  #   become: false
-  #   block:
-  #     - name: Define font paths and URL
-  #       ansible.builtin.set_fact:
-  #         font_download_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"
-  #         user_font_dir: "{{ user_home }}/.local/share/fonts"
-  #         font_install_dir: "{{ user_home }}/.local/share/fonts/NerdFontsJetBrainsMono"
-  #         font_zip_temp_path: "/tmp/JetBrainsMono_v3.4.0.zip"
-  #         cacheable: yes
-  #
-  #     - name: Ensure user font base directory exists
-  #       ansible.builtin.file:
-  #         path: "{{ user_font_dir }}"
-  #         state: directory
-  #         mode: "0755"
-  #
-  #     - name: Ensure specific font installation directory exists
-  #       ansible.builtin.file:
-  #         path: "{{ font_install_dir }}"
-  #         state: directory
-  #         mode: "0755"
-  #
-  #     - name: Check if font installation directory is populated
-  #       ansible.builtin.find:
-  #         paths: "{{ font_install_dir }}"
-  #         file_type: file
-  #       register: font_install_dir_contents
-  #
-  #     - name: Download JetBrains Mono Nerd Font zip (v3.4.0)
-  #       ansible.builtin.get_url:
-  #         url: "{{ font_download_url }}"
-  #         dest: "{{ font_zip_temp_path }}"
-  #         mode: "0644"
-  #       when: font_install_dir_contents.matched == 0
-  #       register: font_download_result
-  #
-  #     - name: Unarchive JetBrains Mono Nerd Font
-  #       ansible.builtin.unarchive:
-  #         src: "{{ font_zip_temp_path }}"
-  #         dest: "{{ font_install_dir }}"
-  #         remote_src: yes
-  #       when: font_install_dir_contents.matched == 0
-  #       register: font_unarchive_result
-  #
-  #     - name: Clean up downloaded font zip file
-  #       ansible.builtin.file:
-  #         path: "{{ font_zip_temp_path }}"
-  #         state: absent
-  #       when: font_download_result.changed
-  #
-  #     - name: Update font cache if fonts were newly installed
-  #       ansible.builtin.command:
-  #         cmd: fc-cache -fv
-  #       when:
-  #         - font_unarchive_result.changed
-  #         - not is_wsl | default(false)
-  #       changed_when: true
-  #
-  #   tags:
-  #     - fonts
-  #     - nerdfonts
-  #     - jetbrainsmono
+# - name: Ensure workspace directory exists
+#   ansible.builtin.file:
+#     path: "{{ user_home }}/workspace"
+#     state: directory
+#     mode: "0755"
+#   become: false
+#
+# - name: Ensure .ssh directory exists
+#   ansible.builtin.file:
+#     path: "{{ user_home }}/.ssh"
+#     state: directory
+#     mode: "0700"
+#   become: false
 
-  # - name: Ensure workspace directory exists
-  #   ansible.builtin.file:
-  #     path: "{{ user_home }}/workspace"
-  #     state: directory
-  #     mode: "0755"
-  #   become: false
-  #
-  # - name: Ensure .ssh directory exists
-  #   ansible.builtin.file:
-  #     path: "{{ user_home }}/.ssh"
-  #     state: directory
-  #     mode: "0700"
-  #   become: false
+# - name: Create .gitconfig from template
+#   ansible.builtin.template:
+#     src: templates/gitconfig.j2
+#     dest: "{{ user_home }}/.gitconfig"
+#     mode: "0644"
+#   become: false
+#
+# - name: Create .gitconfig-enki from template
+#   ansible.builtin.template:
+#     src: templates/gitconfig-enki.j2
+#     dest: "{{ user_home }}/.gitconfig-enki"
+#     mode: "0644"
+#   become: false
 
-  - name: Create .gitconfig from template
-    ansible.builtin.template:
-      src: templates/gitconfig.j2
-      dest: "{{ user_home }}/.gitconfig"
-      mode: "0644"
-    become: false
+# - name: Symlink .ssh/config
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/dotfiles/.ssh/config"
+#     dest: "{{ user_home }}/.ssh/config"
+#     state: link
+#     force: true
+#     follow: false
+#   become: false
 
-  - name: Create .gitconfig-enki from template
-    ansible.builtin.template:
-      src: templates/gitconfig-enki.j2
-      dest: "{{ user_home }}/.gitconfig-enki"
-      mode: "0644"
-    become: false
+# - name: Ensure .zsh directory exists
+#   ansible.builtin.file:
+#     path: "{{ user_home }}/.zsh"
+#     state: directory
+#     mode: "0755"
+#   become: false
 
-  # - name: Symlink .ssh/config
-  #   ansible.builtin.file:
-  #     src: "{{ playbook_dir }}/dotfiles/.ssh/config"
-  #     dest: "{{ user_home }}/.ssh/config"
-  #     state: link
-  #     force: true
-  #     follow: false
-  #   become: false
+# - name: Install zsh-autosuggestions
+#   ansible.builtin.git:
+#     repo: https://github.com/zsh-users/zsh-autosuggestions.git
+#     dest: "{{ user_home }}/.zsh/zsh-autosuggestions"
+#     version: master
+#   become: false
 
-  # - name: Ensure .zsh directory exists
-  #   ansible.builtin.file:
-  #     path: "{{ user_home }}/.zsh"
-  #     state: directory
-  #     mode: "0755"
-  #   become: false
+# - name: Symlink .zshrc
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/dotfiles/.zshrc"
+#     dest: "{{ user_home }}/.zshrc"
+#     state: link
+#     force: true
+#     follow: false
+#   become: false
 
-  # - name: Install zsh-autosuggestions
-  #   ansible.builtin.git:
-  #     repo: https://github.com/zsh-users/zsh-autosuggestions.git
-  #     dest: "{{ user_home }}/.zsh/zsh-autosuggestions"
-  #     version: master
-  #   become: false
+# - name: Ensure .config directory exists
+#   ansible.builtin.file:
+#     path: "{{ user_home }}/.config"
+#     state: directory
+#     mode: "0755"
+#   become: false
 
-  # - name: Symlink .zshrc
-  #   ansible.builtin.file:
-  #     src: "{{ playbook_dir }}/dotfiles/.zshrc"
-  #     dest: "{{ user_home }}/.zshrc"
-  #     state: link
-  #     force: true
-  #     follow: false
-  #   become: false
+# - name: Symlink starship.toml
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/dotfiles/.config/starship.toml"
+#     dest: "{{ user_home }}/.config/starship.toml"
+#     state: link
+#     force: true
+#     follow: false
+#   become: false
 
-  # - name: Ensure .config directory exists
-  #   ansible.builtin.file:
-  #     path: "{{ user_home }}/.config"
-  #     state: directory
-  #     mode: "0755"
-  #   become: false
+# - name: Symlink Neovim configuration
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/dotfiles/.config/nvim"
+#     dest: "{{ user_home }}/.config/nvim"
+#     state: link
+#     force: true
+#     follow: false
+#   become: false
 
-  # - name: Symlink starship.toml
-  #   ansible.builtin.file:
-  #     src: "{{ playbook_dir }}/dotfiles/.config/starship.toml"
-  #     dest: "{{ user_home }}/.config/starship.toml"
-  #     state: link
-  #     force: true
-  #     follow: false
-  #   become: false
+# - name: Set Caps Lock as additional Escape key
+#   ansible.builtin.command:
+#     cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+#   become: false
+#   changed_when: true
+#   when: not is_wsl | default(false)
 
-  # - name: Symlink Neovim configuration
-  #   ansible.builtin.file:
-  #     src: "{{ playbook_dir }}/dotfiles/.config/nvim"
-  #     dest: "{{ user_home }}/.config/nvim"
-  #     state: link
-  #     force: true
-  #     follow: false
-  #   become: false
+# - name: Ensure /usr/share/keyrings directory exists for WezTerm key
+#   ansible.builtin.file:
+#     path: /usr/share/keyrings
+#     state: directory
+#     mode: "0755"
+#   become: yes
+#   when: ansible_os_family == "Debian"
 
-  - name: Set Caps Lock as additional Escape key
-    ansible.builtin.command:
-      cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
-    become: false
-    changed_when: true
-    when: not is_wsl | default(false)
+# - name: Add WezTerm APT GPG key
+#   ansible.builtin.shell:
+#     cmd: curl -fsSL https://apt.fury.io/wez/gpg.key | gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+#     creates: /usr/share/keyrings/wezterm-fury.gpg
+#   become: yes
+#   changed_when: true # Heuristic: if the command runs, assume change or check creates
+#   when: ansible_os_family == "Debian"
+#
+# - name: Ensure WezTerm GPG key has correct permissions
+#   ansible.builtin.file:
+#     path: /usr/share/keyrings/wezterm-fury.gpg
+#     mode: "0644"
+#   become: yes
+#   when: ansible_os_family == "Debian"
+#
+# - name: Add WezTerm APT repository
+#   ansible.builtin.copy:
+#     dest: /etc/apt/sources.list.d/wezterm.list
+#     content: "deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *"
+#     mode: "0644"
+#   become: yes
+#   register: wezterm_repo_added
+#   when: ansible_os_family == "Debian"
+#
+# - name: Update apt cache after adding WezTerm repository
+#   ansible.builtin.apt:
+#     update_cache: yes
+#   when:
+#     - ansible_os_family == "Debian"
+#     - wezterm_repo_added.changed
+#   become: yes
+#   changed_when: false # The change is the update itself, not a package install
+#
+# - name: Install WezTerm via APT
+#   ansible.builtin.apt:
+#     name: wezterm
+#     state: present
+#   become: yes
+#   when: ansible_os_family == "Debian"
 
-  # - name: Ensure /usr/share/keyrings directory exists for WezTerm key
-  #   ansible.builtin.file:
-  #     path: /usr/share/keyrings
-  #     state: directory
-  #     mode: "0755"
-  #   become: yes
-  #   when: ansible_os_family == "Debian"
+# - name: Symlink WezTerm configuration
+#   ansible.builtin.file:
+#     src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"
+#     dest: "{{ user_home }}/.wezterm.lua"
+#     state: link
+#     force: true
+#     follow: false
+#   become: false
 
-  # - name: Add WezTerm APT GPG key
-  #   ansible.builtin.shell:
-  #     cmd: curl -fsSL https://apt.fury.io/wez/gpg.key | gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-  #     creates: /usr/share/keyrings/wezterm-fury.gpg
-  #   become: yes
-  #   changed_when: true # Heuristic: if the command runs, assume change or check creates
-  #   when: ansible_os_family == "Debian"
-  #
-  # - name: Ensure WezTerm GPG key has correct permissions
-  #   ansible.builtin.file:
-  #     path: /usr/share/keyrings/wezterm-fury.gpg
-  #     mode: "0644"
-  #   become: yes
-  #   when: ansible_os_family == "Debian"
-  #
-  # - name: Add WezTerm APT repository
-  #   ansible.builtin.copy:
-  #     dest: /etc/apt/sources.list.d/wezterm.list
-  #     content: "deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *"
-  #     mode: "0644"
-  #   become: yes
-  #   register: wezterm_repo_added
-  #   when: ansible_os_family == "Debian"
-  #
-  # - name: Update apt cache after adding WezTerm repository
-  #   ansible.builtin.apt:
-  #     update_cache: yes
-  #   when:
-  #     - ansible_os_family == "Debian"
-  #     - wezterm_repo_added.changed
-  #   become: yes
-  #   changed_when: false # The change is the update itself, not a package install
-  #
-  # - name: Install WezTerm via APT
-  #   ansible.builtin.apt:
-  #     name: wezterm
-  #     state: present
-  #   become: yes
-  #   when: ansible_os_family == "Debian"
+# - name: Get latest Lazygit version string from GitHub API
+#   ansible.builtin.shell:
+#     cmd: >
+#       curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" |
+#       grep -Po '"tag_name": *"v\K[^"]*'
+#   register: lazygit_latest_version_raw
+#   changed_when: false # This command only retrieves information
+#   check_mode: no # Ensure it runs even in check mode to get the version
+#   become: false
+#
+# - name: Set Lazygit version fact
+#   ansible.builtin.set_fact:
+#     lazygit_version: "{{ lazygit_latest_version_raw.stdout | trim }}"
+#   when: lazygit_latest_version_raw.stdout is defined and lazygit_latest_version_raw.stdout != ""
+#
+# - name: Set Lazygit download variables
+#   ansible.builtin.set_fact:
+#     lazygit_download_url: "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
+#     lazygit_temp_path: "/tmp/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
+#   when: lazygit_version is defined
+#
+# - name: Download Lazygit archive
+#   ansible.builtin.get_url:
+#     url: "{{ lazygit_download_url }}"
+#     dest: "{{ lazygit_temp_path }}"
+#     mode: "0644"
+#   register: lazygit_download_result
+#   when: lazygit_version is defined
+#   become: false # Downloading to /tmp as user should be fine
+#
+# - name: Set Lazygit executable paths
+#   ansible.builtin.set_fact:
+#     lazygit_executable_temp_path: "/tmp/lazygit"
+#     lazygit_install_path: "/usr/local/bin/lazygit"
+#   when: lazygit_version is defined
+#
+# - name: Unarchive Lazygit binary to /tmp
+#   ansible.builtin.unarchive:
+#     src: "{{ lazygit_temp_path }}"
+#     dest: "/tmp/"
+#     include: ["lazygit"]
+#     remote_src: yes
+#     creates: "{{ lazygit_executable_temp_path }}" # Ensures idempotency for this step
+#   become: false
+#   when: lazygit_download_result.changed
+#   register: lazygit_unarchive_result
+#
+# - name: Install Lazygit binary to /usr/local/bin
+#   ansible.builtin.copy:
+#     src: "{{ lazygit_executable_temp_path }}"
+#     dest: "{{ lazygit_install_path }}"
+#     remote_src: yes
+#     mode: "0755"
+#     owner: root
+#     group: root
+#   become: yes
+#   when: lazygit_unarchive_result.changed
+#
+# - name: Clean up downloaded Lazygit archive
+#   ansible.builtin.file:
+#     path: "{{ lazygit_temp_path }}"
+#     state: absent
+#   when: lazygit_download_result.changed
+#   become: false
+#
+# - name: Clean up extracted Lazygit binary from /tmp
+#   ansible.builtin.file:
+#     path: "{{ lazygit_executable_temp_path }}"
+#     state: absent
+#   when: lazygit_unarchive_result.changed
+#   become: false
 
-  # - name: Symlink WezTerm configuration
-  #   ansible.builtin.file:
-  #     src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"
-  #     dest: "{{ user_home }}/.wezterm.lua"
-  #     state: link
-  #     force: true
-  #     follow: false
-  #   become: false
+# - name: Set keyboard repeat interval (lower is faster)
+#   ansible.builtin.command:
+#     cmd: gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 15
+#   become: false
+#   changed_when: true
+#   when: not is_wsl | default(false)
 
-  # - name: Get latest Lazygit version string from GitHub API
-  #   ansible.builtin.shell:
-  #     cmd: >
-  #       curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" |
-  #       grep -Po '"tag_name": *"v\K[^"]*'
-  #   register: lazygit_latest_version_raw
-  #   changed_when: false # This command only retrieves information
-  #   check_mode: no # Ensure it runs even in check mode to get the version
-  #   become: false
-  #
-  # - name: Set Lazygit version fact
-  #   ansible.builtin.set_fact:
-  #     lazygit_version: "{{ lazygit_latest_version_raw.stdout | trim }}"
-  #   when: lazygit_latest_version_raw.stdout is defined and lazygit_latest_version_raw.stdout != ""
-  #
-  # - name: Set Lazygit download variables
-  #   ansible.builtin.set_fact:
-  #     lazygit_download_url: "https://github.com/jesseduffield/lazygit/releases/download/v{{ lazygit_version }}/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
-  #     lazygit_temp_path: "/tmp/lazygit_{{ lazygit_version }}_Linux_x86_64.tar.gz"
-  #   when: lazygit_version is defined
-  #
-  # - name: Download Lazygit archive
-  #   ansible.builtin.get_url:
-  #     url: "{{ lazygit_download_url }}"
-  #     dest: "{{ lazygit_temp_path }}"
-  #     mode: "0644"
-  #   register: lazygit_download_result
-  #   when: lazygit_version is defined
-  #   become: false # Downloading to /tmp as user should be fine
-  #
-  # - name: Set Lazygit executable paths
-  #   ansible.builtin.set_fact:
-  #     lazygit_executable_temp_path: "/tmp/lazygit"
-  #     lazygit_install_path: "/usr/local/bin/lazygit"
-  #   when: lazygit_version is defined
-  #
-  # - name: Unarchive Lazygit binary to /tmp
-  #   ansible.builtin.unarchive:
-  #     src: "{{ lazygit_temp_path }}"
-  #     dest: "/tmp/"
-  #     include: ["lazygit"]
-  #     remote_src: yes
-  #     creates: "{{ lazygit_executable_temp_path }}" # Ensures idempotency for this step
-  #   become: false
-  #   when: lazygit_download_result.changed
-  #   register: lazygit_unarchive_result
-  #
-  # - name: Install Lazygit binary to /usr/local/bin
-  #   ansible.builtin.copy:
-  #     src: "{{ lazygit_executable_temp_path }}"
-  #     dest: "{{ lazygit_install_path }}"
-  #     remote_src: yes
-  #     mode: "0755"
-  #     owner: root
-  #     group: root
-  #   become: yes
-  #   when: lazygit_unarchive_result.changed
-  #
-  # - name: Clean up downloaded Lazygit archive
-  #   ansible.builtin.file:
-  #     path: "{{ lazygit_temp_path }}"
-  #     state: absent
-  #   when: lazygit_download_result.changed
-  #   become: false
-  #
-  # - name: Clean up extracted Lazygit binary from /tmp
-  #   ansible.builtin.file:
-  #     path: "{{ lazygit_executable_temp_path }}"
-  #     state: absent
-  #   when: lazygit_unarchive_result.changed
-  #   become: false
-
-  - name: Set keyboard repeat interval (lower is faster)
-    ansible.builtin.command:
-      cmd: gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 15
-    become: false
-    changed_when: true
-    when: not is_wsl | default(false)
-
-  - name: Set keyboard repeat delay
-    ansible.builtin.command:
-      cmd: gsettings set org.gnome.desktop.peripherals.keyboard delay 200
-    become: false
-    changed_when: true
-    when: not is_wsl | default(false)
+# - name: Set keyboard repeat delay
+#   ansible.builtin.command:
+#     cmd: gsettings set org.gnome.desktop.peripherals.keyboard delay 200
+#   become: false
+#   changed_when: true
+#   when: not is_wsl | default(false)

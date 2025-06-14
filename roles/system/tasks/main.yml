@@ -1,0 +1,24 @@
+---
+# Needs WSL
+- name: Set keyboard configuration variables
+  ansible.builtin.set_fact:
+    keyboard_repeat_interval: 8
+    keyboard_repeat_delay: 180
+
+# Needs WSL
+- name: Set Caps Lock as additional Escape key
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+  changed_when: true
+
+# Needs WSL
+- name: Set keyboard repeat interval (lower is faster)
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval {{ keyboard_repeat_interval }}
+  changed_when: true
+
+# Needs WSL
+- name: Set keyboard repeat delay
+  ansible.builtin.command:
+    cmd: gsettings set org.gnome.desktop.peripherals.keyboard delay {{ keyboard_repeat_delay }}
+  changed_when: true
