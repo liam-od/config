@@ -18,12 +18,15 @@ return {
 			-- LSP
 			"lua-language-server",
 			"pyright",
+			"ansible-language-server",
 
 			-- Formatters
 			"stylua",
 			"ruff",
+			"prettierd",
 
 			-- Linters
+			"ansible-lint",
 		}
 
 		local function install_packages()

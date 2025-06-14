@@ -5,6 +5,7 @@ return {
 	opts = {
 		formatters_by_ft = {
 			lua = { "stylua" },
+			yaml = { "prettierd" },
 		},
 		format_on_save = {
 			timeot_ms = 500,

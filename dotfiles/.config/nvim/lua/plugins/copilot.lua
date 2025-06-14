@@ -19,6 +19,7 @@ return {
 				python = true,
 				lua = true,
 				markdown = true,
+				yaml = true,
 			},
 		})
 

@@ -68,8 +68,15 @@ vim.lsp.config("pyright", {
 	},
 })
 
+vim.lsp.config("ansiblels", {
+	cmd = { "ansible-language-server", "--stdio" },
+	filetypes = { "yaml.ansible", "yaml" },
+	on_attach = on_attach,
+})
+
 vim.lsp.enable({
 	"lua_ls",
 	"pyright",
+	"ansiblels",
 	-- 'basedpyright',
 })
