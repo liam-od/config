@@ -1,0 +1,40 @@
+---
+- name: Download sh installers
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ user_home }}/.tmp/{{ item.name }}-install.sh"
+    mode: "0644"
+  loop:
+    - name: uv
+      url: https://astral.sh/uv/install.sh
+
+    - name: direnv
+      url: https://direnv.net/install.sh
+
+    - name: starship
+      url: https://starship.rs/install.sh
+
+    - name: nvm
+      url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Install sh tools
+  ansible.builtin.command:
+    cmd: "sh {{ user_home }}/.tmp/{{ item.name }}-install.sh"
+    creates: "{{ item.creates }}"
+  loop:
+    - name: uv
+      creates: "{{ user_home }}/.local/bin/uv"
+
+    - name: direnv
+      creates: "{{ user_home }}/.local/bin/direnv"
+
+    - name: starship
+      creates: /usr/local/bin/starship
+      args: "--yes"
+
+    - name: nvm
+      creates: "{{ user_home }}/.nvm/nvm.sh"
+  loop_control:
+    label: "{{ item.name }}"

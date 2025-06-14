@@ -1,0 +1,35 @@
+---
+- name: Create install directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.tmp"
+    state: directory
+    mode: "0755"
+
+- name: Download and install from sh installers
+  include_tasks: install_sh.yml
+
+- name: Install node.js and npm using nvm
+  ansible.builtin.shell:
+    cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
+    creates: "{{ user_home }}/.nvm/alias/default"
+
+- name: Install neovim
+  include_tasks: install_neovim.yml
+
+- name: Install zsh-autosuggestions
+  ansible.builtin.git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ user_home }}/.zsh/zsh-autosuggestions"
+    version: master
+
+# Need WSL
+- name: Install wezterm
+  include_tasks: install_wezterm.yml
+
+- name: Install lazygit
+  include_tasks: install_lazygit.yml
+
+- name: Clean up installer directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.tmp"
+    state: absent

@@ -1,0 +1,33 @@
+---
+- name: Install Hack Nerd Font
+  vars:
+    font_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
+    font_dir: "{{ user_home }}/.local/share/fonts/Hack"
+  block:
+    - name: Create font directory
+      ansible.builtin.file:
+        path: "{{ font_dir }}"
+        state: directory
+        mode: "0755"
+        recurse: true
+
+    - name: Check if font is already installed
+      ansible.builtin.stat:
+        path: "{{ font_dir }}/HackNerdFont-Regular.ttf"
+      register: font_installed
+
+    - name: Download and extract Hack Nerd Font
+      ansible.builtin.unarchive:
+        src: "{{ font_url }}"
+        dest: "{{ font_dir }}"
+        remote_src: true
+        creates: "{{ font_dir }}/HackNerdFont-Regular.ttf"
+      register: font_extracted
+
+    - name: Update font cache
+      ansible.builtin.command:
+        cmd: fc-cache -fv
+      changed_when: true
+      when:
+        - font_extracted.changed
+

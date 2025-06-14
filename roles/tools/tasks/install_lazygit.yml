@@ -1,0 +1,34 @@
+---
+- name: Get latest Lazygit release info from GitHub API
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/jesseduffield/lazygit/releases/latest
+    method: GET
+    return_content: true
+  register: lazygit_release
+  delegate_to: localhost
+  run_once: true
+
+- name: Check if Lazygit is already installed and get version
+  ansible.builtin.command:
+    cmd: lazygit --version
+  register: installed_lazygit_version
+  failed_when: false
+  changed_when: false
+
+- name: Install/Update Lazygit
+  ansible.builtin.unarchive:
+    src: "{{ lazygit_base_url }}/{{ lazygit_version }}/{{ lazygit_filename }}"
+    dest: /usr/local/bin
+    remote_src: true
+    include: ["lazygit"]
+    mode: "0755"
+  become: true
+  vars:
+    lazygit_version: "{{ lazygit_release.json.tag_name }}"
+    lazygit_version_clean: "{{ lazygit_version | regex_replace('^v') }}"
+    lazygit_base_url: "https://github.com/jesseduffield/lazygit/releases/download"
+    lazygit_filename: "lazygit_{{ lazygit_version_clean }}_Linux_x86_64.tar.gz"
+  when: >
+    installed_lazygit_version.rc != 0 or
+    lazygit_release.json.tag_name not in installed_lazygit_version.stdout
+

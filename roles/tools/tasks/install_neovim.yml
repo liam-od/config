@@ -1,0 +1,34 @@
+---
+- name: Check if Neovim is already installed
+  ansible.builtin.stat:
+    path: "/opt/nvim/nvim"
+  register: nvim_installed
+
+- name: Install Neovim AppImage
+  when: not nvim_installed.stat.exists
+  block:
+    - name: Download Neovim AppImage
+      ansible.builtin.get_url:
+        url: "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage"
+        dest: "/tmp/nvim-linux-x86_64.appimage"
+        mode: "0644"
+
+    - name: Create Neovim installation directory
+      ansible.builtin.file:
+        path: "/opt/nvim"
+        state: directory
+        mode: "0755"
+      become: true
+
+    - name: Install Neovim AppImage
+      ansible.builtin.copy:
+        src: "/tmp/nvim-linux-x86_64.appimage"
+        dest: "/opt/nvim/nvim"
+        remote_src: true
+        mode: "0755"
+      become: true
+
+    - name: Cleanup Neovim AppImage
+      ansible.builtin.file:
+        path: "/tmp/nvim-linux-x86_64.appimage"
+        state: absent
