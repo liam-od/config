@@ -64,8 +64,8 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 - [ ] Bufferline.nvim
 
 #### Nice to haves
-- [ ] Terminal completion (i.e Fig)
-- [ ] Refactor playbook with roles
+- [X] Terminal completion (i.e Fig)
+- [X] Refactor playbook with roles
 - [ ] Brave + sync code
 - [ ] Proton VPN
 - [ ] Librewolf

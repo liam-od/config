@@ -1,4 +1,5 @@
 ---
+# Need WSL
 - name: Install Hack Nerd Font
   vars:
     font_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.zip"
@@ -30,4 +31,3 @@
       changed_when: true
       when:
         - font_extracted.changed
-

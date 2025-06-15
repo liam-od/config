@@ -1,3 +1,4 @@
+---
 - name: Install essential packages
   ansible.builtin.apt:
     name:
@@ -38,4 +39,3 @@
     path: "{{ user_home }}/.zsh"
     state: directory
     mode: "0755"
-# Need WSL

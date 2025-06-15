@@ -1,4 +1,5 @@
 ---
+# Need WSL
 - name: Download WezTerm GPG key
   ansible.builtin.get_url:
     url: https://apt.fury.io/wez/gpg.key
