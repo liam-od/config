@@ -76,7 +76,12 @@ return {
 				files = {
 					hidden = true,
 					ignored = true,
-					exclude = { ".venv/", "undodir/", ".git/" },
+					exclude = { ".venv/", "undodir/", ".git/", "node_modules/" },
+				},
+				grep = {
+					hidden = true,
+					ignored = true,
+					exclude = { ".venv/", "undodir/", ".git/", "node_modules/" },
 				},
 			},
 		},
@@ -118,11 +123,18 @@ return {
 			desc = "Grep",
 		},
 		{
-			"<leader>fg",
+			"<leader>fF",
 			function()
 				Snacks.picker.files({ cwd = "~/" })
 			end,
-			desc = "Find Files",
+			desc = "Find files globally",
+		},
+		{
+			"<leader>fS",
+			function()
+				Snacks.picker.grep({ cwd = "~/" })
+			end,
+			desc = "Find string globally",
 		},
 		{
 			"<leader>e",

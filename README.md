@@ -54,6 +54,7 @@ For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
 - [X] Change cursor speed
 - [ ] Latex support (texlive, thesis theme)
 - [ ] Obsidian and Zotero (with nvim stuff)
+- [ ] Move more script stuff to ansible
 
 #### Plugins to try
 - [ ] MINI.MAP

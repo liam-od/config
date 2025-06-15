@@ -20,6 +20,22 @@ vim.diagnostic.config({
 	},
 })
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "*.yml", "*.yaml" },
+	callback = function()
+		if
+			vim.fs.find({ "ansible.cfg" }, {
+				upward = true,
+				type = "file",
+				stop = vim.fn.expand("~"),
+				limit = 1,
+			})[1]
+		then
+			vim.bo.filetype = "yaml.ansible"
+		end
+	end,
+})
+
 vim.lsp.config("lua_ls", {
 	cmd = { "lua-language-server" },
 	filetypes = { "lua" },
@@ -70,7 +86,8 @@ vim.lsp.config("pyright", {
 
 vim.lsp.config("ansiblels", {
 	cmd = { "ansible-language-server", "--stdio" },
-	filetypes = { "yaml.ansible", "yaml" },
+	filetypes = { "yaml.ansible" },
+	root_markers = { "ansible.cfg" },
 	on_attach = on_attach,
 })
 
