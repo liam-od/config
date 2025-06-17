@@ -9,7 +9,7 @@ return {
 			python = { "ruff_format" },
 		},
 		format_on_save = {
-			timeot_ms = 500,
+			timeout_ms = 500,
 			lsp_format = "fallback",
 		},
 	},

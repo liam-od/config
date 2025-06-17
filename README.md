@@ -19,11 +19,6 @@ Script:
 - `ansible-playbook playbook.yml`
 - `git remote set-url origin git@github.com:liam-od/config.git`
 - `npm install -g tree-sitter-cli`
-- `curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh`
-- `curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh`
-- `mv ~/.atuin/bin/atuin ~/.local/bin/atuin`
-- `mv ~/.atuin/bin/atuin-update ~/.local/bin/atuin-update`
-- `rm -rf ~./atuin`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.

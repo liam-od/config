@@ -16,12 +16,18 @@
 
     - name: nvm
       url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh
+
+    - name: rustup
+      url: https://sh.rustup.rs
+
+    - name: zoxide
+      url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
   loop_control:
     label: "{{ item.name }}"
 
 - name: Install sh tools
   ansible.builtin.command:
-    cmd: "sh {{ user_home }}/.tmp/{{ item.name }}-install.sh"
+    cmd: "sh {{ user_home }}/.tmp/{{ item.name }}-install.sh {{ item.args | default('') }}"
     creates: "{{ item.creates }}"
   loop:
     - name: uv
@@ -36,5 +42,12 @@
 
     - name: nvm
       creates: "{{ user_home }}/.nvm/nvm.sh"
+
+    - name: rustup
+      creates: "{{ user_home }}/.cargo/bin/cargo"
+      args: "-y --no-modify-path"
+
+    - name: zoxide
+      creates: "{{ user_home }}/.local/bin/zoxide"
   loop_control:
     label: "{{ item.name }}"

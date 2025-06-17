@@ -1,29 +1,22 @@
-eval "$(starship init zsh)"
-eval "$(direnv hook zsh)"
-eval "$(atuin init zsh)"
-eval "$(zoxide init zsh)"
+add_to_path() {
+    case ":${PATH}:" in
+        *:"$1":*) ;;
+        *) export PATH="$1:$PATH" ;;
+    esac
+}
+
+add_to_path "/opt/nvim"
+add_to_path "$HOME/.local/bin"
+add_to_path "$HOME/.cargo/bin"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Add /opt/nvim to PATH if it isn't added yet
-case ":${PATH}:" in
-    *:"/opt/nvim":*)
-        ;;
-    *)
-        export PATH="${PATH:+$PATH:}/opt/nvim"
-        ;;
-esac
-
-# Add $HOME/.local/bin to PATH if it isn't added yet
-case ":${PATH}:" in
-    *:"$HOME/.local/bin":*)
-        ;;
-    *)
-        export PATH="$HOME/.local/bin:$PATH"
-        ;;
-esac
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+eval "$(direnv hook zsh)"
 
 . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
