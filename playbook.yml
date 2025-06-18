@@ -6,6 +6,7 @@
       ansible.builtin.set_fact:
         user_home: "{{ lookup('env', 'HOME') }}"
       tags:
+        - test
         - base
         - tools
         - fonts

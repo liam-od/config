@@ -13,6 +13,11 @@
     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
     creates: "{{ user_home }}/.nvm/alias/default"
 
+- name: Install package with npm via nvm
+  ansible.builtin.command:
+    cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && npm install -g tree-sitter-cli"
+    creates: "{{ user_home }}/.nvm/versions/node/$(nvm version)/bin/tree-sitter"
+
 - name: Install atuin with cargo
   ansible.builtin.command:
     cmd: "{{ user_home }}/.cargo/bin/cargo install atuin"

@@ -18,50 +18,23 @@ Script:
 - `source ~/.bashrc`
 - `ansible-playbook playbook.yml`
 - `git remote set-url origin git@github.com:liam-od/config.git`
-- `npm install -g tree-sitter-cli`
 
 `chsh -s $(which zsh)`
 Login and out for the shell changes to take effect.
 
 We can now run `wezterm` to use our new terminal
 
-For WSL: `ansible-playbook playbook.yml -e "is_wsl=true"`
-
 ### TODO
 
 #### Next
-- [X] Install and configure zoxide
-- [X] Replace .zsh_history with atuin
-- [ ] Configure history syncing with atuin register
-- [X] Tabs
-- [X] Picker open files in splits or tabs
-- [X] Lualine
-- [X] Git (gitsigns and diffview)
-- [ ] Popup terminal support (with REPL)
-- [X] LSP
-- [ ] Copilot (copilot cli, copilot chat, aider support?)
-- [ ] Tmux (with session management, persistence? SessionX?)
-
-#### Ansible
-- [X] Install lazygit binary
-- [X] Install WezTerm
-- [X] Symlink `.wezterm.lua`
-- [X] Change cursor speed
+- [ ] Tmux setup
+- [ ] Aider support
+- [ ] Create desktop file for wezterm with ansible
 - [ ] Latex support (texlive, thesis theme)
 - [ ] Obsidian and Zotero (with nvim stuff)
-- [ ] Move more script stuff to ansible
-
-#### Plugins to try
-- [ ] MINI.MAP
-- [ ] MINI.FILES
-- [ ] MINI.BRACKETED
-- [ ] MINI.SNIPPETS
-- [ ] MINI.TABLINE
-- [ ] Bufferline.nvim
 
 #### Nice to haves
-- [X] Terminal completion (i.e Fig)
-- [X] Refactor playbook with roles
+- [ ] Configure history syncing with atuin register
 - [ ] Brave + sync code
 - [ ] Proton VPN
 - [ ] Librewolf
