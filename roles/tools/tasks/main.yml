@@ -32,6 +32,14 @@
     dest: "{{ user_home }}/.zsh/zsh-autosuggestions"
     version: master
 
+- name: Install tmux plugin manager
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ user_home }}/.tmux/plugins/tpm"
+    version: master
+  tags:
+    - test
+
 # Need WSL
 - name: Install wezterm
   include_tasks: install_wezterm.yml

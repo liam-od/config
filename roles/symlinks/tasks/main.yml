@@ -15,6 +15,14 @@
     force: true
     follow: false
 
+- name: Symlink .tmux.conf
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/.tmux.conf"
+    dest: "{{ user_home }}/.tmux.conf"
+    state: link
+    force: true
+    follow: false
+
 - name: Symlink starship.toml
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.config/starship.toml"
