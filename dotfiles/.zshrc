@@ -24,6 +24,7 @@ bindkey '^ ' autosuggest-accept
 alias va="source .venv/bin/activate"
 alias dva="deactivate"
 alias ls='eza --icons -F -H --group-directories-first -git -1'
+alias ltree="eza --tree --level=2  --icons --git"
 alias cd="z"
 alias vim="nvim"
 alias gs="git status"

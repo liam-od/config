@@ -27,7 +27,7 @@
 
 - name: Install sh tools
   ansible.builtin.command:
-    cmd: "sh {{ user_home }}/.tmp/{{ item.name }}-install.sh {{ item.args | default('') }}"
+    cmd: "bash {{ user_home }}/.tmp/{{ item.name }}-install.sh {{ item.args | default('') }}"
     creates: "{{ item.creates }}"
   loop:
     - name: uv
