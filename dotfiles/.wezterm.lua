@@ -4,7 +4,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 config.initial_cols = 120
-config.initial_rows = 60
+config.initial_rows = 30
 
 config.font_size = 12
 config.font = wezterm.font("Hack Nerd Font")

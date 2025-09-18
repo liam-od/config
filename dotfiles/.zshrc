@@ -8,6 +8,15 @@ add_to_path() {
 add_to_path "/opt/nvim"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.cargo/bin"
+add_to_path "$HOME/.local/texlive/2025/bin/x86_64-linux"
+
+if [[ -d "$HOME/.local/texlive/2025/texmf-dist/doc/man" ]]; then
+    export MANPATH="$HOME/.local/texlive/2025/texmf-dist/doc/man:${MANPATH:-}"
+fi
+
+if [[ -d "$HOME/.local/texlive/2025/texmf-dist/doc/info" ]]; then
+    export INFOPATH="$HOME/.local/texlive/2025/texmf-dist/doc/info:${INFOPATH:-}"
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

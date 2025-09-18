@@ -8,6 +8,12 @@
 - name: Download and install from sh installers
   include_tasks: install_sh.yml
 
+- name: Set default Rust toolchain to stable
+  ansible.builtin.command:
+    cmd: "{{ user_home }}/.cargo/bin/rustup default stable"
+  args:
+    creates: "{{ user_home }}/.rustup/toolchains/stable-x86_64-unknown-linux-gnu"
+
 - name: Install node.js and npm using nvm
   ansible.builtin.shell:
     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"
