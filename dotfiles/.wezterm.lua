@@ -29,4 +29,8 @@ config.animation_fps = 144
 config.front_end = "WebGpu"
 config.use_ime = false
 
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  config.default_domain = 'WSL:Ubuntu'
+end
+
 return config

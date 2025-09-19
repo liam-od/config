@@ -24,6 +24,12 @@ Login and out for the shell changes to take effect.
 
 We can now run `wezterm` to use our new terminal
 
+### WSL:
+
+- Install Hack Nerd Font on windows
+- Copy .wezterm.lua to $USERPROFILE
+- Keyboard speed limited in windows, need some thirdparty tool, AutoHotKey or similar.
+
 ### TODO
 
 #### Next

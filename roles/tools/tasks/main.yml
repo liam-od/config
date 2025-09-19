@@ -18,6 +18,11 @@
     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && npm install -g tree-sitter-cli"
     creates: "{{ user_home }}/.nvm/versions/node/$(nvm version)/bin/tree-sitter"
 
+- name: Ensure Rust default toolchain is stable
+  ansible.builtin.command:
+    cmd: "{{ user_home }}/.cargo/bin/rustup default stable"
+  changed_when: false
+
 - name: Install atuin with cargo
   ansible.builtin.command:
     cmd: "{{ user_home }}/.cargo/bin/cargo install atuin"
@@ -39,10 +44,6 @@
     version: master
   tags:
     - test
-
-# Need WSL
-- name: Install wezterm
-  include_tasks: install_wezterm.yml
 
 - name: Install lazygit
   include_tasks: install_lazygit.yml
