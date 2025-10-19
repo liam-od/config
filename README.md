@@ -29,6 +29,7 @@ We can now run `wezterm` to use our new terminal
 - Install Hack Nerd Font on windows
 - Copy .wezterm.lua to $USERPROFILE
 - Keyboard speed limited in windows, need some thirdparty tool, AutoHotKey or similar.
+- Remember to copy obsidian / zotero stuff to wsl filesystem
 
 ### TODO
 
