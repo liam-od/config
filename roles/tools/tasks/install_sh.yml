@@ -26,9 +26,14 @@
     label: "{{ item.name }}"
 
 - name: Install sh tools
+  become: "{{ item.name == 'starship'}}"
   ansible.builtin.command:
-    cmd: "bash {{ user_home }}/.tmp/{{ item.name }}-install.sh {{ item.args | default('') }}"
+    cmd: >-
+      {{ 'sh' if item.name == 'starship' else 'bash' }}
+      {{ user_home }}/.tmp/{{ item.name }}-install.sh
+      {{ item.args | default('') }}
     creates: "{{ item.creates }}"
+
   loop:
     - name: uv
       creates: "{{ user_home }}/.local/bin/uv"
@@ -45,7 +50,7 @@
 
     - name: rustup
       creates: "{{ user_home }}/.cargo/bin/cargo"
-      args: "-y --no-modify-path"
+      args: "-y --no-modify-path --default-toolchain stable"
 
     - name: zoxide
       creates: "{{ user_home }}/.local/bin/zoxide"
