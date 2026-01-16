@@ -33,7 +33,8 @@
       {{ user_home }}/.tmp/{{ item.name }}-install.sh
       {{ item.args | default('') }}
     creates: "{{ item.creates }}"
-
+  environment:
+    bin_path: "{{ user_home }}/.local/bin"
   loop:
     - name: uv
       creates: "{{ user_home }}/.local/bin/uv"
