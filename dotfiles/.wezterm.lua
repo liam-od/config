@@ -24,8 +24,8 @@ config.window_padding = {
 
 config.audible_bell = "Disabled"
 
-config.max_fps = 144
-config.animation_fps = 144
+config.max_fps = 240
+config.animation_fps = 240
 config.front_end = "WebGpu"
 config.use_ime = false
 

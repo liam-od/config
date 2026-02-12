@@ -14,6 +14,7 @@
       - eza
       - python3-pip
       - python3-venv
+      - libfuse2
     update_cache: true
   become: true
 
