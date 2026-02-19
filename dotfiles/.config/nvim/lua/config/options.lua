@@ -52,5 +52,8 @@ vim.o.writebackup = false -- Disable write backup files (needed for some tools l
 vim.o.undofile = true -- Enable persistent undo
 vim.o.undodir = undodir -- Set undo directory
 
+-- LaTeX
+vim.g.tex_flavor = "latex" -- Default .tex files to LaTeX (not plaintex)
+
 -- Performance & Behavior
 --vim.o.completeopt = "menuone,noselect" -- Completion options: show menu, only one item, no auto-selection

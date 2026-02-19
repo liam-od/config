@@ -19,6 +19,7 @@ return {
 			"lua-language-server",
 			"pyright",
 			"ansible-language-server",
+			"texlab",
 
 			-- Formatters
 			"stylua",

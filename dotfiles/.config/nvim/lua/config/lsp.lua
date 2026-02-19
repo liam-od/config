@@ -91,9 +91,17 @@ vim.lsp.config("ansiblels", {
 	on_attach = on_attach,
 })
 
+vim.lsp.config("texlab", {
+	cmd = { "texlab" },
+	filetypes = { "tex", "bib" },
+	root_markers = { ".latexmkrc", ".git" },
+	on_attach = on_attach,
+})
+
 vim.lsp.enable({
 	"lua_ls",
 	"pyright",
 	"ansiblels",
+	"texlab",
 	-- 'basedpyright',
 })

@@ -21,6 +21,7 @@ return {
 			"dockerfile",
 			"gitignore",
 			"regex",
+			"latex",
 		}
 
 		require("nvim-treesitter").setup({})
@@ -36,6 +37,14 @@ return {
 				vim.bo.smartindent = false
 				vim.bo.cindent = false
 				vim.bo.autoindent = true
+			end,
+		})
+
+		-- LaTeX: filetype is "tex" but parser name is "latex"
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "tex",
+			callback = function()
+				vim.treesitter.start(0, "latex")
 			end,
 		})
 	end,
