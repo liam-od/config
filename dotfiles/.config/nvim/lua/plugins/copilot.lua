@@ -23,7 +23,7 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<C-;>", suggestion.toggle_auto_trigger, { desc = "Toggle Copilot Auto Trigger" })
-		vim.keymap.set("i", "<C-;>", suggestion.dismiss, { desc = "Dismiss suggestion" })
+		vim.keymap.set("n", "<M-e>", suggestion.toggle_auto_trigger, { desc = "Toggle Copilot Auto Trigger" })
+		vim.keymap.set("i", "<M-e>", suggestion.dismiss, { desc = "Dismiss suggestion" })
 	end,
 }
