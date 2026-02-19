@@ -46,3 +46,19 @@
     state: link
     force: true
     follow: false
+
+- name: Find all files and directories in dotfiles/.claude
+  ansible.builtin.find:
+    paths: "{{ playbook_dir }}/dotfiles/.claude"
+    file_type: any
+    recurse: false
+  register: claude_dotfiles
+
+- name: Symlink .claude files and directories to ~/.claude
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "{{ user_home }}/.claude/{{ item.path | basename }}"
+    state: link
+    force: true
+    follow: false
+  loop: "{{ claude_dotfiles.files }}"
