@@ -9,6 +9,11 @@ return {
 			python = { "ruff_format" },
 			tex = { "latexindent" },
 		},
+		formatters = {
+			latexindent = {
+				args = { "-c", "/tmp/", "-" },
+			},
+		},
 		format_on_save = {
 			timeout_ms = 500,
 			lsp_format = "fallback",
