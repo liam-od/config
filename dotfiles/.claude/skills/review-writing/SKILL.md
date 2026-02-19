@@ -18,7 +18,7 @@ Parse `$ARGUMENTS` as follows:
 
 ## Writing rules
 
-!`cat ~/.claude/writing-rules.md`
+!`cat ~/.claude/shared/writing-rules.md`
 
 ## Task
 

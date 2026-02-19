@@ -10,7 +10,9 @@
   "respectGitignore": true,
   "permissions": {
     "allow": [
-      "Read(./**)"
+      "Read(./**)",
+      "Read(~/config/dotfiles/.claude/**)",
+      "Bash(cat ~/config/dotfiles/.claude/shared/**)"
     ],
     "deny": [
       "Read(./.env)",

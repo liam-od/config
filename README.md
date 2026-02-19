@@ -2,7 +2,7 @@
 
 First:
 - `sudo apt install git`
-- `git clone https://github.com/liam-od/config.git`
+- `git clone https://github.com/liam-od/config.git ~/config`
 
 Move over ssh keys to .ssh/, then:
 - `chmod 600 ~/.ssh/liam`
