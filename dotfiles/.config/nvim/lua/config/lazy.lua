@@ -1,4 +1,3 @@
--- Install lazy if it is not already.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -15,7 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Map leader before loading lazy.
 vim.g.mapleader = " "
 
 require("lazy").setup({
@@ -23,14 +21,14 @@ require("lazy").setup({
 		{ import = "plugins" },
 	},
 	defaults = {
-		version = "*", -- Get the latest stable version of new plugins
+		version = "*",
 	},
 	install = { colorscheme = { "catppuccin-macchiato" } },
 	checker = {
-		enabled = false, -- Updates :Lazy sync or :Lazy check
+		enabled = false,
 	},
 	change_detection = {
-		enabled = true, -- Check for local changes
+		enabled = true,
 		notify = false,
 	},
 	performance = {

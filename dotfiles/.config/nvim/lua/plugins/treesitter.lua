@@ -40,7 +40,6 @@ return {
 			end,
 		})
 
-		-- LaTeX: filetype is "tex" but parser name is "latex"
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = "tex",
 			callback = function()

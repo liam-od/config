@@ -7,6 +7,7 @@ return {
 			lua = { "stylua" },
 			yaml = { "prettierd" },
 			python = { "ruff_format" },
+			tex = { "latexindent" },
 		},
 		format_on_save = {
 			timeout_ms = 500,

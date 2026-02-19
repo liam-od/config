@@ -11,6 +11,7 @@ return {
 		-- Linter name must come from nvim-lint's supported linters
 		lint.linters_by_ft = {
 			python = { "ruff" },
+			tex = { "chktex" },
 		}
 
 		lint.linters.ruff.args = {

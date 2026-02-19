@@ -54,21 +54,6 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.config("basedpyright", {
-	cmd = { "basedpyright-langserver", "--stdio" },
-	filetypes = { "python" },
-	on_attach = on_attach,
-	settings = {
-		basedpyright = {
-			analysis = {
-				autoSearchPaths = true,
-				diagnosticMode = "openFilesOnly",
-				useLibraryCodeForTypes = true,
-			},
-		},
-	},
-})
-
 vim.lsp.config("pyright", {
 	cmd = { "pyright-langserver", "--stdio" },
 	filetypes = { "python" },
@@ -103,5 +88,4 @@ vim.lsp.enable({
 	"pyright",
 	"ansiblels",
 	"texlab",
-	-- 'basedpyright',
 })
