@@ -39,6 +39,14 @@
     force: true
     follow: false
 
+- name: Symlink .latexmkrc
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/.latexmkrc"
+    dest: "{{ user_home }}/.latexmkrc"
+    state: link
+    force: true
+    follow: false
+
 - name: Symlink .chktexrc
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.chktexrc"
