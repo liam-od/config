@@ -32,12 +32,3 @@ alias gd="git diff"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-
-lmk() {
-    if [[ $1 == "-save" ]]; then
-        shift
-        latexmk -pdf -outdir=build "$@"
-    else
-        latexmk -pdf -synctex=1 -interaction=nonstopmode -pvc -outdir=build "$@"
-    fi
-}
