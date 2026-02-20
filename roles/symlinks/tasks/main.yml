@@ -39,6 +39,14 @@
     force: true
     follow: false
 
+- name: Symlink .chktexrc
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/.chktexrc"
+    dest: "{{ user_home }}/.chktexrc"
+    state: link
+    force: true
+    follow: false
+
 - name: Symlink WezTerm configuration
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"
