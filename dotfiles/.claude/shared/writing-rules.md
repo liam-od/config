@@ -182,8 +182,3 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 
 - `\subsubsection{}` is the lowest permitted heading level.
 - SI units and function names must not be in italics — use `siunitx`.
-- Inline commands that produce text must be followed by `{}` or `\ ` to prevent
-  space-gobbling — e.g. `\LaTeX{}` not `\LaTeX`, `\textbf{hello}` not `\textbf hello`.
-  Standalone structural commands on their own line (`\mainmatter`, `\cleardoublepage`,
-  `\phantomsection`, `\normalfont`, `\raggedbottom`, etc.) are exempt — the newline after
-  them is a known false positive.
