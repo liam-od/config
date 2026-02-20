@@ -1,1 +1,12 @@
-SeenUser = 1
+CmdLine {}
+
+Silent
+{
+    \ifxetex \symbfit \normalfont
+    \makenoidxglossaries \glsaddallunused
+    \raggedbottom \cleardoublepage \phantomsection
+    \TitlePage \DeclarationPage
+    \listofalgorithms \mainmatter
+    \State \Return \Comment
+    \EndFor \EndWhile \EndIf \EndProcedure \EndFunction \EndLoop
+}
