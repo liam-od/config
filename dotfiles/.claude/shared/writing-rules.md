@@ -5,9 +5,12 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 ## Most commonly broken
 
 - **WR4d** — No present continuous tense. "Optimisation of..." not "Optimising of...".
-- **WR14** — No apostrophe possession. "The performance of the algorithm" not "the algorithm's performance".
-- **WR19f** — No "In this section, X is discussed." Write "This section discusses X" or "X is discussed in this section."
-- **WR28b** — Chapters and main sections must not open with body text followed by subsections. Start with purpose, context, and an outline; then subsections.
+- **WR14** — No apostrophe possession. "The performance of the algorithm" not "the
+  algorithm's performance".
+- **WR19f** — No "In this section, X is discussed." Write "This section discusses X" or "X
+  is discussed in this section."
+- **WR28b** — Chapters and main sections must not open with body text followed by subsections.
+  Start with purpose, context, and an outline; then subsections.
 
 ---
 
@@ -21,10 +24,12 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
    - a) Default: present tense.
    - b) Empirical process and discussion of observations: past tense.
    - c) Conclusions: past tense.
-   - d) No present continuous tense. "Optimisation of the control parameters..." not "Optimising of the control parameters...".
+   - d) No present continuous tense. "Optimisation of the control parameters..." not
+     "Optimising of the control parameters...".
    - e) References to published literature in past tense. E.g. "Engelbrecht showed that...".
 
-5. Avoid pronouns such as "it, its, this, them, they, which" — they introduce ambiguity. Be specific.
+5. Avoid pronouns such as "it, its, this, them, they, which" — they introduce ambiguity. Be
+   specific.
 
 6. Do not use uncertain terms such as "some" or "certain". Be specific.
 
@@ -32,9 +37,12 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 
 8. Do not use "etc". Be complete and specific.
 
-9. Avoid footnotes and clarifications in parentheses — they break reading flow. Footnotes only for URLs to code or datasets.
+9. Avoid footnotes and clarifications in parentheses — they break reading flow. Footnotes only
+   for URLs to code or datasets.
 
-10. When text appears in parentheses, the reader must know why. Do not just give a figure/table number in parentheses. Prefer: "as indicated in Table 2" over "(Table 2)". If parenthetical, write "(refer to Table 2)".
+10. When text appears in parentheses, the reader must know why. Do not just give a figure/table
+    number in parentheses. Prefer: "as indicated in Table 2" over "(Table 2)". If parenthetical,
+    write "(refer to Table 2)".
 
 11. Each concept must be defined before it is used.
 
@@ -42,23 +50,27 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 
 13. Do not use contractions: "don't", "we're", etc.
 
-14. Avoid apostrophe possession. "The performance of the algorithm" not "the algorithm's performance".
+14. Avoid apostrophe possession. "The performance of the algorithm" not "the algorithm's
+    performance".
 
 15. Note the difference between "to" and "too".
 
-16. Note the difference between "amount" and "number of". "Number of" refers to countable objects; "amount" to non-countable.
+16. Note the difference between "amount" and "number of". "Number of" refers to countable
+    objects; "amount" to non-countable.
 
 17. Be careful with conjunctions such as "since", "because", "as".
 
 18. Single-digit numbers in words; multi-digit numbers in numeric form.
 
 19. Sentences:
-    - a) Write in short, flowing sentences. One sentence, one fact. No more than one comma or conjunction per sentence.
+    - a) Write in short, flowing sentences. One sentence, one fact. No more than one comma or
+      conjunction per sentence.
     - b) Write in full sentences.
     - c) Do not start a sentence with a symbol or a number.
     - d) Each sentence should flow from the previous.
     - e) Do not start a sentence with a citation label.
-    - f) Do not start a sentence with "In this section, X is discussed." Write "This section discusses X" or "X is discussed in this section."
+    - f) Do not start a sentence with "In this section, X is discussed." Write "This section
+      discusses X" or "X is discussed in this section."
     - g) Do not start a sentence with "And" or "But".
     - h) Each sentence must have a verb.
 
@@ -84,9 +96,11 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
     - c) Use only initials and surnames — no full first names.
     - d) Do not cite pre-prints (arXiv, ResearchSquare, etc.). Find the published version.
     - e) Do not cite blogs.
-    - f) Website references for code libraries and data archives go in footnotes, not the bibliography.
+    - f) Website references for code libraries and data archives go in footnotes, not the
+      bibliography.
     - g) References must be complete and consistently formatted.
-    - h) Conference proceedings source: "Proceedings of the [Full Conference Name]". Write names in full — no acronyms.
+    - h) Conference proceedings source: "Proceedings of the [Full Conference Name]". Write
+      names in full — no acronyms.
 
 24. Citation style:
     - a) One author: "Engelbrecht showed that..."
@@ -101,9 +115,11 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
     - c) Captions are labels only — no detailed explanations. Explanations go in the main text.
     - d) Symbols in a figure may be defined in the caption.
     - e) Every figure must be referred to, introduced, and discussed in the main text.
-    - f) For sub-figures, use the LaTeX `subfigure` environment with sub-captions. No headings per sub-figure.
+    - f) For sub-figures, use the LaTeX `subfigure` environment with sub-captions. No headings
+      per sub-figure.
     - g) Place a figure after its first reference in the text.
-    - h) Avoid copying figures from literature. Provide original diagrams. If using figures from other sources, cite them.
+    - h) Avoid copying figures from literature. Provide original diagrams. If using figures
+      from other sources, cite them.
 
 26. Tables:
     - a) Captions above the table.
@@ -121,12 +137,14 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 
 28. Chapters and sections:
     - a) Headings are labels only — no verbs, no questions.
-    - b) Chapters and main sections must not have body text followed by subsections. Start with: purpose, context, outline of remainder. Then subsections.
+    - b) Chapters and main sections must not have body text followed by subsections. Start
+      with: purpose, context, outline of remainder. Then subsections.
     - c) A chapter or main section must not have only one subsection.
     - d) No forward references to sections/chapters, except in the outline of that section/chapter.
     - e) Do not start a chapter with a figure, table, or algorithm. Start with text.
     - f) End each chapter with a summary.
-    - g) Start each chapter with a short paragraph stating context and purpose, followed by an outline.
+    - g) Start each chapter with a short paragraph stating context and purpose, followed by
+      an outline.
 
 29. Symbols:
     - a) All mathematical symbols must be in math mode (italics).
@@ -154,9 +172,11 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
     - "criterion" is singular; "criteria" is plural.
     - "optimum/minimum/maximum" are singular; "optima/minima/maxima" are plural.
 
-33. In normal text, do not capitalise each word when defining acronyms. Capitalise only proper names.
+33. In normal text, do not capitalise each word when defining acronyms. Capitalise only
+    proper names.
 
-34. Every statement or claim must be supported by a citation or empirical evidence provided in the document.
+34. Every statement or claim must be supported by a citation or empirical evidence provided in
+    the document.
 
 ## LaTeX-specific formatting
 
