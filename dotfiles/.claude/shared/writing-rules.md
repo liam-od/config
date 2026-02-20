@@ -157,3 +157,8 @@ Full rules from Prof. Engelbrecht, for use during writing reviews.
 33. In normal text, do not capitalise each word when defining acronyms. Capitalise only proper names.
 
 34. Every statement or claim must be supported by a citation or empirical evidence provided in the document.
+
+## LaTeX-specific formatting
+
+- `\subsubsection{}` is the lowest permitted heading level.
+- SI units and function names must not be in italics — use `siunitx`.

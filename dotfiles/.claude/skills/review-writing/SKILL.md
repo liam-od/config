@@ -28,7 +28,7 @@ If a section filter was given, locate the matching `\section{}`, `\subsection{}`
 
 If no section filter was given, review the entire file.
 
-Review the selected content against every writing rule above.
+Review the selected content against every rule above.
 
 For each violation found:
 - Quote the offending sentence or phrase

@@ -11,6 +11,7 @@
   "permissions": {
     "allow": [
       "Read(./**)",
+      "Read(~/.claude/**)",
       "Read(~/config/dotfiles/.claude/**)",
       "Bash(cat ~/config/dotfiles/.claude/shared/**)"
     ],
