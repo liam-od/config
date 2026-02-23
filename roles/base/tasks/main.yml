@@ -42,3 +42,9 @@
     path: "{{ user_home }}/.zsh"
     state: directory
     mode: "0755"
+
+- name: Ensure .local/bin directory exists
+  ansible.builtin.file:
+    path: "{{ user_home }}/.local/bin"
+    state: directory
+    mode: "0755"
