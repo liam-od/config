@@ -58,6 +58,7 @@ vim.lsp.config("pyright", {
 	cmd = { "pyright-langserver", "--stdio" },
 	filetypes = { "python" },
 	on_attach = on_attach,
+	root_markers = { "pyproject.toml", ".git" },
 	settings = {
 		python = {
 			analysis = {
