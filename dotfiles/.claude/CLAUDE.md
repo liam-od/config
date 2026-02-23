@@ -13,7 +13,7 @@
 
 ### Shell
 
-The following aliases are active in this shell — avoid using the raw commands directly:
+The following aliases are active in this shell
 
-- `ls` → `eza --icons -F -H --group-directories-first -git -1` (use `/bin/ls` to get the real ls)
-- `cd` → `z` (zoxide) — use `z <dir>` or just `cd` as normal, but raw `cd` in Bash tool calls is fine
+- `ls` → `eza --icons -F -H --group-directories-first -git -1`
+- `cd` → `z` (zoxide)
