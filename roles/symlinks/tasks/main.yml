@@ -63,6 +63,22 @@
     force: true
     follow: false
 
+- name: Find all files in dotfiles/bin
+  ansible.builtin.find:
+    paths: "{{ playbook_dir }}/dotfiles/bin"
+    file_type: file
+    recurse: false
+  register: bin_scripts
+
+- name: Symlink bin scripts to ~/.local/bin
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "{{ user_home }}/.local/bin/{{ item.path | basename }}"
+    state: link
+    force: true
+    follow: false
+  loop: "{{ bin_scripts.files }}"
+
 - name: Find all files and directories in dotfiles/.claude
   ansible.builtin.find:
     paths: "{{ playbook_dir }}/dotfiles/.claude"
