@@ -13,18 +13,12 @@
       "Read(./**)",
       "Read(~/.claude/**)",
       "Read(~/config/dotfiles/.claude/**)",
+      "Bash(ls ./**)",
+      "Bash(cat ./**)",
       "Bash(ls ~/config/dotfiles/.claude/**)",
       "Bash(cat ~/config/dotfiles/.claude/shared/**)"
     ],
     "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)",
-      "Read(./**/.env)",
-      "Read(./**/.env.*)",
-      "Read(./**/*.key)",
-      "Read(./**/*.pem)",
-      "Read(./**/*.p12)",
-      "Read(./**/*.pfx)"
     ]
   }
 }
