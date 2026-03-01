@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Starts up the dev environment for atlas
+
+WINDOW="atlas"
+
+if [ -n "$TMUX" ]; then
+  SESSION=$(tmux display-message -p '#S')
+else
+  SESSION="main"
+  tmux new-session -d -s $SESSION 2>/dev/null || true
+fi
+
+if [ "$1" = "close" ]; then
+  if tmux list-windows -t $SESSION -F '#{window_name}' 2>/dev/null | grep -q "^${WINDOW}$"; then
+    tmux kill-window -t $SESSION:$WINDOW
+  else
+    echo "atlas: no window found to close"
+  fi
+  exit 0
+fi
+
+if tmux list-windows -t $SESSION -F '#{window_name}' 2>/dev/null | grep -q "^${WINDOW}$"; then
+  tmux kill-window -t $SESSION:$WINDOW
+fi
+
+tmux new-window -t $SESSION -n $WINDOW
+
+PANE_TL=$(tmux display-message -t $SESSION:$WINDOW -p '#{pane_id}')
+PANE_TR=$(tmux split-window -h -t $PANE_TL -P -F '#{pane_id}')
+PANE_BL=$(tmux split-window -v -t $PANE_TL -P -F '#{pane_id}')
+PANE_BR=$(tmux split-window -v -t $PANE_TR -P -F '#{pane_id}')
+
+tmux select-layout -t $SESSION:$WINDOW tiled
+
+tmux send-keys -t $PANE_TL "cd ~/workspace/enki/bytefuse/bytefuse-services && sleep 1 && make start-dev" C-m
+tmux send-keys -t $PANE_TR "cd ~/workspace/enki/bytefuse/bytefuse-services && sleep 1 && make start-worker" C-m
+tmux send-keys -t $PANE_BL "cd ~/workspace/enki/bytefuse/bytefuse-client && sleep 1 && make start-dev" C-m
+tmux send-keys -t $PANE_BR "cd ~/workspace/enki/bytefuse/hocuspocus && sleep 1 && pnpm dev" C-m
+
+tmux select-pane -t $PANE_TL
+
+if [ -n "$TMUX" ]; then
+  tmux select-window -t $SESSION:$WINDOW
+else
+  tmux attach-session -t $SESSION
+fi

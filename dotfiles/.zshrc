@@ -33,3 +33,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias c="claude"
+
+if [[ -z "$TMUX" ]]; then
+  tmux attach 2>/dev/null || tmux new-session
+fi

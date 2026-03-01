@@ -1,5 +1,6 @@
 return {
 	"zbirenbaum/copilot.lua",
+	enabled = false,
 	event = "InsertEnter",
 	config = function()
 		local suggestion = require("copilot.suggestion")

@@ -63,9 +63,9 @@
     force: true
     follow: false
 
-- name: Find all files in dotfiles/bin
+- name: Find all files in scripts
   ansible.builtin.find:
-    paths: "{{ playbook_dir }}/dotfiles/bin"
+    paths: "{{ playbook_dir }}/scripts"
     file_type: file
     recurse: false
   register: bin_scripts
