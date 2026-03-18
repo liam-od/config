@@ -2,6 +2,9 @@
     name = {{ GIT_USER_NAME }}
     email = {{ GIT_USER_EMAIL }}
 
+[core]
+    editor = nvim
+
 # Load enki rules for anything under ~/workspace/enki/
 [includeIf "gitdir:~/workspace/enki/"]
     path = ~/.gitconfig-enki

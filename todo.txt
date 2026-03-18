@@ -1,2 +1,0 @@
-- Ensure .claude directory exists
-- Install claude code tool

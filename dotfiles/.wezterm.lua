@@ -3,6 +3,10 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.default_domain = "WSL:Ubuntu"
+end
+
 config.initial_cols = 120
 config.initial_rows = 60
 

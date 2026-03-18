@@ -45,7 +45,7 @@
   tags:
     - test
 
-# Need WSL
+# If using WSL, we need to skip this and install wezterm in windows
 - name: Install wezterm
   include_tasks: install_wezterm.yml
 

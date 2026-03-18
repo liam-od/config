@@ -31,4 +31,3 @@
   when: >
     installed_lazygit_version.rc != 0 or
     lazygit_release.json.tag_name not in installed_lazygit_version.stdout
-
