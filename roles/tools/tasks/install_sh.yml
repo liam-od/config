@@ -22,6 +22,9 @@
 
     - name: zoxide
       url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
+
+    - name: claude
+      url: https://claude.ai/install.sh
   loop_control:
     label: "{{ item.name }}"
 
@@ -56,5 +59,8 @@
 
     - name: zoxide
       creates: "{{ user_home }}/.local/bin/zoxide"
+
+    - name: claude
+      creates: "{{ user_home }}/.local/bin/claude"
   loop_control:
     label: "{{ item.name }}"
