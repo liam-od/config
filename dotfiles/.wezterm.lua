@@ -33,4 +33,14 @@ config.animation_fps = 240
 config.front_end = "WebGpu"
 config.use_ime = false
 
+wezterm.on('open-uri', function(window, pane, uri)
+  local rest = uri:match('^file://(.+)$')
+  if not rest then return end
+  local path, line = rest:match('^(.+):(%d+)$')
+  if not path then path = rest:gsub(':$', '') end
+  local args = line and { '/opt/nvim/nvim', '+' .. line, path } or { '/opt/nvim/nvim', path }
+  window:perform_action(wezterm.action.SpawnCommandInNewTab { args = args }, pane)
+  return false
+end)
+
 return config
