@@ -16,6 +16,7 @@
       - python3-venv
       - libfuse2
       - texlive-full
+      - git-delta
     update_cache: true
   become: true
 

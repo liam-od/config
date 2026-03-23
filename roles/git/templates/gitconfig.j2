@@ -4,6 +4,24 @@
 
 [core]
     editor = nvim
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    dark = true
+    line-numbers = true
+    side-by-side = true
+    hyperlinks = true
+    hyperlinks-file-link-format = "file://{path}:{line}"
+    hunk-header-style = omit
+    file-style = bold yellow
+    file-decoration-style = box
+
+[merge]
+    conflictStyle = zdiff3
 
 # Load enki rules for anything under ~/workspace/enki/
 [includeIf "gitdir:~/workspace/enki/"]
