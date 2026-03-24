@@ -34,6 +34,10 @@ config.front_end = "WebGpu"
 config.use_ime = false
 
 wezterm.on('open-uri', function(window, pane, uri)
+  if uri:match('github%.com.*bytefuse') then
+    wezterm.open_with(uri, 'google-chrome-stable')
+    return false
+  end
   local rest = uri:match('^file://(.+)$')
   if not rest then return end
   local path, line = rest:match('^(.+):(%d+)$')
