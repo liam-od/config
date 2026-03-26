@@ -18,6 +18,7 @@
       - texlive-full
       - git-delta
       - jq
+      - gh
     update_cache: true
   become: true
 

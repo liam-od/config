@@ -5,6 +5,18 @@ add_to_path() {
     esac
 }
 
+ghw() {
+  local target browser
+  if [[ "$PWD" == */workspace/enki/* ]]; then
+    target=liam-enki browser=google-chrome-stable
+  else
+    target=liam-od browser=brave-browser
+  fi
+  local current=$(gh auth status --json activeAccount -q '.activeAccount' 2>/dev/null)
+  [[ "$current" != "$target" ]] && gh auth switch -u "$target" 2>/dev/null
+  GH_BROWSER=$browser gh "$@"
+}
+
 add_to_path "/opt/nvim"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.cargo/bin"
@@ -29,6 +41,10 @@ alias cd="z"
 alias vim="nvim"
 alias gs="git status"
 alias gd="git diff"
+alias gl="git log"
+alias go="ghw browse"
+alias gob="ghw browse -b \$(git branch --show-current)"
+alias gop="ghw pr view --web"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
