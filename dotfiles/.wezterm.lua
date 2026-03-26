@@ -34,7 +34,9 @@ config.front_end = "WebGpu"
 config.use_ime = false
 
 wezterm.on('open-uri', function(window, pane, uri)
-  if uri:match('github%.com.*bytefuse') then
+  local cwd_uri = pane:get_current_working_dir()
+  local cwd = cwd_uri and cwd_uri.file_path or ''
+  if uri:match('github%.com') and cwd:match('/workspace/enki/') then
     wezterm.open_with(uri, 'google-chrome-stable')
     return false
   end

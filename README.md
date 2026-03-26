@@ -16,7 +16,8 @@ Debian-based Linux and WSL.
    git clone https://github.com/liam-od/config.git ~/config
    ```
 
-2. Copy SSH keys to `~/.ssh/` and set permissions:
+2. Copy SSH keys to `~/.ssh/` and set permissions (only needed for the `git` role — skip if
+   you're not me):
 
    ```sh
    chmod 600 ~/.ssh/liam
@@ -31,13 +32,20 @@ Debian-based Linux and WSL.
    pipx ensurepath
    source ~/.bashrc
    cd ~/config
-   ansible-playbook playbook.yml
+   ansible-playbook playbook.yml --ask-vault-pass
+   ```
+
+   The vault password is needed for the `git` role, which configures a personal multi-account GitHub
+   setup. If you're not me, you don't need this role:
+
+   ```sh
+   ansible-playbook playbook.yml --skip-tags git
    ```
 
    On non-GNOME desktops, skip the system role:
 
    ```sh
-   ansible-playbook playbook.yml --skip-tags system
+   ansible-playbook playbook.yml --ask-vault-pass --skip-tags system
    ```
 
 4. Switch default shell to zsh, then log out and back in:
@@ -46,7 +54,7 @@ Debian-based Linux and WSL.
    chsh -s $(which zsh)
    ```
 
-5. Fix the git remote to use SSH:
+5. Fix the git remote to use SSH (only if you're me):
 
    ```sh
    git remote set-url origin git@github.com:liam-od/config.git
@@ -66,7 +74,7 @@ Do these steps on the **Windows** side before running the playbook:
 When running the playbook under WSL, skip the roles handled on the Windows side:
 
 ```sh
-ansible-playbook playbook.yml --skip-tags fonts,system
+ansible-playbook playbook.yml --ask-vault-pass --skip-tags fonts,system
 ```
 
 ---
@@ -77,12 +85,12 @@ ansible-playbook playbook.yml --skip-tags fonts,system
 
 | Role | Purpose |
 |------|---------|
-| `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, texlive-full |
+| `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, git-delta, jq, gh, texlive-full |
 | `tools` | CLI tools: uv, nvm+node, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, claude |
 | `fonts` | Hack Nerd Font |
-| `symlinks` | Links dotfiles and scripts into `~` and `~/.local/bin` |
+| `symlinks` | Links dotfiles and scripts |
 | `system` | GNOME keyboard: Caps to Escape, fast key repeat rate |
-| `git` | `.gitconfig` + `.gitconfig-enki` from templates (multi-account support) |
+| `git` | Personal multi-account GitHub setup |
 
 ---
 
@@ -155,7 +163,7 @@ smart `cd`, atuin shell history sync, and zsh-autosuggestions.
 
 ### Git
 
-Two gitconfig profiles managed via the `git` role:
+Two gitconfig profiles managed via the `git` role, with matching gh CLI accounts authenticated:
 
 - **Personal** - default profile
 - **`enki`** - work profile, auto-selected by directory via `includeIf`
