@@ -17,6 +17,7 @@
       - libfuse2
       - texlive-full
       - git-delta
+      - jq
     update_cache: true
   become: true
 
@@ -53,5 +54,11 @@
 - name: Ensure .claude directory exists
   ansible.builtin.file:
     path: "{{ user_home }}/.claude"
+    state: directory
+    mode: "0755"
+
+- name: Ensure .claude-work directory exists
+  ansible.builtin.file:
+    path: "{{ user_home }}/.claude-work"
     state: directory
     mode: "0755"

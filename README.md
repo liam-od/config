@@ -159,3 +159,17 @@ Two gitconfig profiles managed via the `git` role:
 
 - **Personal** - default profile
 - **`enki`** - work profile, auto-selected by directory via `includeIf`
+
+---
+
+### Claude Code
+
+Two accounts (personal and work) configured via separate config directories, with shell aliases to
+switch between them:
+
+| Alias | Account | Config dir |
+|-------|---------|------------|
+| `c` | Personal | `~/.claude` (default) |
+| `cw` | Work | `~/.claude-work` |
+
+On first run, each alias will prompt you through account login and setup automatically.

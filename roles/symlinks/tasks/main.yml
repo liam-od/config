@@ -94,3 +94,12 @@
     force: true
     follow: false
   loop: "{{ claude_dotfiles.files }}"
+
+- name: Symlink .claude files and directories to ~/.claude-work
+  ansible.builtin.file:
+    src: "{{ item.path }}"
+    dest: "{{ user_home }}/.claude-work/{{ item.path | basename }}"
+    state: link
+    force: true
+    follow: false
+  loop: "{{ claude_dotfiles.files }}"

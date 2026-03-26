@@ -16,9 +16,14 @@
       "Bash(ls ./**)",
       "Bash(cat ./**)",
       "Bash(ls ~/config/dotfiles/.claude/**)",
-      "Bash(cat ~/config/dotfiles/.claude/shared/**)"
+      "Bash(cat ~/config/dotfiles/.claude/shared/**)",
+      "Bash(find)"
     ],
     "deny": []
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": false,
+    "context7@claude-plugins-official": true
   },
   "effortLevel": "high"
 }
