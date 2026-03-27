@@ -51,6 +51,18 @@ alias ....="cd ../../.."
 alias c="claude"
 alias cw="CLAUDE_CONFIG_DIR=~/.claude-work claude"
 
+__wezterm_osc7() {
+  local url="file://$HOST$PWD"
+  if [[ -n "$TMUX" ]]; then
+    printf '\ePtmux;\e\e]7;%s\a\e\\' "$url"
+  else
+    printf '\e]7;%s\a' "$url"
+  fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd __wezterm_osc7
+__wezterm_osc7
+
 if [[ -z "$TMUX" ]]; then
   tmux attach 2>/dev/null || tmux new-session
 fi
