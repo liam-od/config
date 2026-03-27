@@ -10,16 +10,37 @@
   },
   "permissions": {
     "allow": [
-      "Read(./**)",
-      "Read(~/.claude/**)",
-      "Read(~/config/dotfiles/.claude/**)",
-      "Bash(ls ./**)",
-      "Bash(cat ./**)",
-      "Bash(ls ~/config/dotfiles/.claude/**)",
-      "Bash(cat ~/config/dotfiles/.claude/shared/**)",
-      "Bash(find)"
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(git status *)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(git show *)",
+      "Bash(git fetch *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh issue view *)",
+      "Bash(gh issue list *)",
+      "Bash(gh repo view *)",
+      "WebSearch",
+      "WebFetch",
+      "mcp__plugin_context7_context7"
     ],
-    "deny": []
+    "deny": [
+      "Read(//**/.env)",
+      "Read(//**/.env.*)"
+    ],
+    "ask": [
+      "Bash(git commit *)"
+    ]
   },
   "enabledMcpjsonServers": [
     "github"
@@ -28,5 +49,5 @@
     "frontend-design@claude-plugins-official": false,
     "context7@claude-plugins-official": true
   },
-  "effortLevel": "high"
+  "effortLevel": "medium"
 }
