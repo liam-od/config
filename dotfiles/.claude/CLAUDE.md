@@ -8,8 +8,8 @@
 - `nvim plugins` = `~/config/dotfiles/.config/nvim/lua/plugins/`
 - `dotfiles` = `~/config/dotfiles/`
 - `thesis` = `~/workspace/thesis/18977995-masters-thesis/`
-- `client` = `~/workspace/enki/bytefuse-client/`
-- `services` = `~/workspace/enki/bytefuse-services/`
+- `client` = `~/workspace/enki/bytefuse/bytefuse-client/`
+- `services` = `~/workspace/enki/bytefuse/bytefuse-services/`
 
 ### Shell
 

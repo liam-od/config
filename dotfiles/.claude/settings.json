@@ -14,17 +14,30 @@
       "Glob",
       "Grep",
       "Bash(ls *)",
+      "Bash(command ls *)",
+      "Bash(/bin/ls *)",
       "Bash(find *)",
+      "Bash(command find *)",
+      "Bash(/bin/find *)",
       "Bash(grep *)",
       "Bash(cat *)",
       "Bash(head *)",
       "Bash(git status *)",
+      "Bash(git * status *)",
       "Bash(git log *)",
+      "Bash(git * log *)",
       "Bash(git diff *)",
+      "Bash(git * diff *)",
       "Bash(git show *)",
+      "Bash(git * show *)",
       "Bash(git fetch *)",
+      "Bash(git * fetch *)",
       "Bash(git branch *)",
+      "Bash(git * branch *)",
       "Bash(git add *)",
+      "Bash(git * add *)",
+      "Bash(git remote *)",
+      "Bash(git * remote *)",
       "Bash(gh pr view *)",
       "Bash(gh pr list *)",
       "Bash(gh issue view *)",
@@ -32,7 +45,9 @@
       "Bash(gh repo view *)",
       "WebSearch",
       "WebFetch",
-      "mcp__plugin_context7_context7"
+      "mcp__plugin_context7_context7",
+      "mcp__github__list_pull_requests",
+      "mcp__github__pull_request_read"
     ],
     "deny": [
       "Read(//**/.env)",
@@ -40,6 +55,9 @@
     ],
     "ask": [
       "Bash(git commit *)"
+    ],
+    "additionalDirectories": [
+      "~"
     ]
   },
   "enabledMcpjsonServers": [
@@ -49,5 +67,6 @@
     "frontend-design@claude-plugins-official": false,
     "context7@claude-plugins-official": true
   },
-  "effortLevel": "medium"
+  "effortLevel": "high",
+  "model": "opus"
 }
