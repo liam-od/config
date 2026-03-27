@@ -1,0 +1,31 @@
+---
+- name: Get latest github-mcp-server release info from GitHub API
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/github/github-mcp-server/releases/latest
+    method: GET
+    return_content: true
+  register: github_mcp_release
+  delegate_to: localhost
+  run_once: true
+
+- name: Check if github-mcp-server is already installed and get version
+  ansible.builtin.command:
+    cmd: github-mcp-server --version
+  register: installed_github_mcp_version
+  failed_when: false
+  changed_when: false
+
+- name: Install/Update github-mcp-server
+  ansible.builtin.unarchive:
+    src: "{{ github_mcp_base_url }}/{{ github_mcp_version }}/{{ github_mcp_filename }}"
+    dest: "{{ user_home }}/.local/bin"
+    remote_src: true
+    include: ["github-mcp-server"]
+    mode: "0755"
+  vars:
+    github_mcp_version: "{{ github_mcp_release.json.tag_name }}"
+    github_mcp_base_url: "https://github.com/github/github-mcp-server/releases/download"
+    github_mcp_filename: "github-mcp-server_Linux_x86_64.tar.gz"
+  when: >
+    installed_github_mcp_version.rc != 0 or
+    github_mcp_release.json.tag_name not in installed_github_mcp_version.stdout

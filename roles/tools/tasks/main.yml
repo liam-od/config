@@ -52,6 +52,9 @@
 - name: Install lazygit
   include_tasks: install_lazygit.yml
 
+- name: Install github-mcp-server
+  include_tasks: install_github_mcp_server.yml
+
 - name: Clean up installer directory
   ansible.builtin.file:
     path: "{{ user_home }}/.tmp"

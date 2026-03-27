@@ -1,4 +1,8 @@
 ---
+- name: Load vault vars
+  ansible.builtin.include_vars:
+    file: vault.yml
+
 - name: Create .gitconfig from template
   ansible.builtin.template:
     src: gitconfig.j2
@@ -19,4 +23,29 @@
 - name: Authenticate gh CLI (work)
   ansible.builtin.shell: echo "{{ GH_TOKEN_WORK }}" | gh auth login --with-token
   # no_log: true
+  changed_when: true
+
+- name: Remove existing GitHub MCP server from Claude Code
+  ansible.builtin.command:
+    cmd: claude mcp remove github
+  environment:
+    CLAUDE_CONFIG_DIR: "{{ item.config_dir }}"
+  loop:
+    - config_dir: "{{ user_home }}/.claude"
+    - config_dir: "{{ user_home }}/.claude-work"
+  changed_when: true
+  failed_when: false
+
+- name: Add GitHub MCP server to Claude Code
+  ansible.builtin.command:
+    cmd: >
+      claude mcp add --scope user github
+      -- sh -c "GITHUB_PERSONAL_ACCESS_TOKEN=$(gh auth token {{ item.gh_args }}) github-mcp-server stdio"
+  environment:
+    CLAUDE_CONFIG_DIR: "{{ item.config_dir }}"
+  loop:
+    - config_dir: "{{ user_home }}/.claude"
+      gh_args: "-u liam-od"
+    - config_dir: "{{ user_home }}/.claude-work"
+      gh_args: "-u liam-enki"
   changed_when: true

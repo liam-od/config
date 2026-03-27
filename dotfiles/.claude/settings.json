@@ -21,10 +21,12 @@
     ],
     "deny": []
   },
+  "enabledMcpjsonServers": [
+    "github"
+  ],
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": false,
-    "context7@claude-plugins-official": true,
-    "github@claude-plugins-official": true
+    "context7@claude-plugins-official": true
   },
-  "effortLevel": "medium"
+  "effortLevel": "high"
 }
