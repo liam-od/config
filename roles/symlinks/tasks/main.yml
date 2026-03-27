@@ -83,6 +83,7 @@
   ansible.builtin.find:
     paths: "{{ playbook_dir }}/dotfiles/.claude"
     file_type: any
+    hidden: true
     recurse: false
   register: claude_dotfiles
 
