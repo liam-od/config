@@ -48,7 +48,7 @@ Debian-based Linux and WSL.
    ansible-playbook playbook.yml --ask-vault-pass --skip-tags system
    ```
 
-4. Switch default shell to zsh, then log out and back in:
+4. Switch default shell to zsh, then **log out and back in** for it to take effect:
 
    ```sh
    chsh -s $(which zsh)
@@ -59,6 +59,32 @@ Debian-based Linux and WSL.
    ```sh
    git remote set-url origin git@github.com:liam-od/config.git
    ```
+
+6. Install LaTeX support (too large to bundle in the Ansible role, so install it manually):
+
+   ```sh
+   sudo apt install texlive-full
+   ```
+
+7. Install tmux plugins. Open WezTerm (tmux starts automatically), then press `Ctrl-a + I`
+   to fetch and install all plugins via TPM. Wait for the install to complete.
+
+8. Install Neovim plugins. Still inside WezTerm/tmux, run `vim` and wait for lazy.nvim to
+   install everything automatically, then quit:
+
+   ```sh
+   vim
+   ```
+
+9. Initialise lazygit. Run it once so it generates its config (required before using it from
+   inside Neovim via `<leader>gg`):
+
+   ```sh
+   lazygit
+   ```
+
+10. Set up Brave Browser. Launch it once, then pin it to the dock if you want it there.
+    Sign in via **Settings → Sync → Enter sync code** to restore bookmarks and settings.
 
 ---
 
@@ -85,7 +111,7 @@ ansible-playbook playbook.yml --ask-vault-pass --skip-tags fonts,system
 
 | Role | Purpose |
 |------|---------|
-| `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, git-delta, jq, gh, texlive-full |
+| `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, git-delta, jq, gh |
 | `tools` | CLI tools: uv, nvm+node, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, claude |
 | `fonts` | Hack Nerd Font |
 | `symlinks` | Links dotfiles and scripts |
@@ -155,7 +181,7 @@ smart `cd`, atuin shell history sync, and zsh-autosuggestions.
 
 ### LaTeX
 
-- `texlive-full` installed via the `base` role
+- `texlive-full` installed manually (see install step 6)
 - `texlab` LSP, `latexindent` formatter, `chktex` linter
 - `.latexmkrc` and `.chktexrc` dotfiles symlinked
 
