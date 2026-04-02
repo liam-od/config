@@ -25,14 +25,17 @@
 
     - name: claude
       url: https://claude.ai/install.sh
+
+    - name: brave
+      url: https://dl.brave.com/install.sh
   loop_control:
     label: "{{ item.name }}"
 
 - name: Install sh tools
-  become: "{{ item.name == 'starship'}}"
+  become: "{{ item.name in ['starship', 'brave'] }}"
   ansible.builtin.command:
     cmd: >-
-      {{ 'sh' if item.name == 'starship' else 'bash' }}
+      {{ 'sh' if item.name in ['starship', 'brave'] else 'bash' }}
       {{ user_home }}/.tmp/{{ item.name }}-install.sh
       {{ item.args | default('') }}
     creates: "{{ item.creates }}"
@@ -62,5 +65,8 @@
 
     - name: claude
       creates: "{{ user_home }}/.local/bin/claude"
+
+    - name: brave
+      creates: /usr/bin/brave-browser
   loop_control:
     label: "{{ item.name }}"

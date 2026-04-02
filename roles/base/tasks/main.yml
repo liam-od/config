@@ -15,7 +15,6 @@
       - python3-pip
       - python3-venv
       - libfuse2
-      - texlive-full
       - git-delta
       - jq
       - gh
