@@ -9,6 +9,7 @@
         - test
         - base
         - tools
+        - apps
         - fonts
         - symlinks
         - system
@@ -20,6 +21,9 @@
 
     - role: tools
       tags: tools
+
+    - role: apps
+      tags: apps
 
     - role: fonts
       tags: fonts

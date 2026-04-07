@@ -1,0 +1,4 @@
+---
+- name: Install Spotify
+  ansible.builtin.include_tasks: install_spotify.yml
+  when: ansible_facts['os_family'] == "Debian"

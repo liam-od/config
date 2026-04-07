@@ -1,0 +1,25 @@
+---
+- name: Download Spotify GPG key
+  ansible.builtin.get_url:
+    url: https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc
+    dest: /usr/share/keyrings/spotify.asc
+    mode: "0644"
+  become: true
+
+- name: Convert Spotify GPG key to binary format
+  ansible.builtin.command:
+    cmd: gpg --yes --dearmor -o /usr/share/keyrings/spotify.gpg /usr/share/keyrings/spotify.asc
+    creates: /usr/share/keyrings/spotify.gpg
+  become: true
+
+- name: Add Spotify APT repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/spotify.gpg] https://repository.spotify.com stable non-free"
+    filename: spotify
+  become: true
+
+- name: Install Spotify
+  ansible.builtin.apt:
+    name: spotify-client
+    update_cache: true
+  become: true
