@@ -54,6 +54,9 @@ Debian-based Linux and WSL.
    chsh -s $(which zsh)
    ```
 
+   This also applies the docker group membership set by the `tools` role — verify with
+   `docker run hello-world`.
+
 5. Fix the git remote to use SSH (only if you're me):
 
    ```sh
@@ -112,7 +115,7 @@ ansible-playbook playbook.yml --ask-vault-pass --skip-tags fonts,system
 | Role | Purpose |
 |------|---------|
 | `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, git-delta, jq, gh |
-| `tools` | CLI tools: uv, nvm+node, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, claude |
+| `tools` | CLI tools: uv, nvm+node, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, claude, docker |
 | `apps` | Spotify |
 | `fonts` | Hack Nerd Font |
 | `symlinks` | Links dotfiles and scripts |
