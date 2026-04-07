@@ -55,6 +55,9 @@
 - name: Install github-mcp-server
   include_tasks: install_github_mcp_server.yml
 
+- name: Install docker
+  include_tasks: install_docker.yml
+
 - name: Clean up installer directory
   ansible.builtin.file:
     path: "{{ user_home }}/.tmp"
