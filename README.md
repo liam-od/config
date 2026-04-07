@@ -113,10 +113,17 @@ ansible-playbook playbook.yml --ask-vault-pass --skip-tags fonts,system
 |------|---------|
 | `base` | Core apt packages: zsh, tmux, ripgrep, fd-find, fzf, eza, git-delta, jq, gh |
 | `tools` | CLI tools: uv, nvm+node, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, claude |
+| `apps` | Spotify |
 | `fonts` | Hack Nerd Font |
 | `symlinks` | Links dotfiles and scripts |
 | `system` | GNOME keyboard: Caps to Escape, fast key repeat rate |
 | `git` | Personal multi-account GitHub setup |
+
+The `apps` role currently only supports Debian-based systems. Skip it on other distros:
+
+```sh
+ansible-playbook playbook.yml --skip-tags apps
+```
 
 ---
 
