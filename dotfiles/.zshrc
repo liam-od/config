@@ -50,6 +50,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias c="claude"
 alias cw="CLAUDE_CONFIG_DIR=~/.claude-work claude"
+alias bfdb='harlequin -a postgres "postgresql://postgres:password@localhost:63333/postgres"'
 
 __wezterm_osc7() {
   local url="file://$HOST$PWD"
