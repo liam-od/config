@@ -8,6 +8,11 @@
 - name: Download and install from sh installers
   include_tasks: install_sh.yml
 
+- name: Install harlequin with uv
+  ansible.builtin.command:
+    cmd: "{{ user_home }}/.local/bin/uv tool install 'harlequin[postgres]'"
+    creates: "{{ user_home }}/.local/bin/harlequin"
+
 - name: Install node.js and npm using nvm
   ansible.builtin.shell:
     cmd: bash -c "source {{ user_home }}/.nvm/nvm.sh && nvm install --lts && nvm alias default lts/*"

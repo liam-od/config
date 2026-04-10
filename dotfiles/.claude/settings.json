@@ -60,12 +60,19 @@
       "~"
     ]
   },
+  "model": "opus[1m]",
   "enabledMcpjsonServers": [
     "github"
   ],
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": false,
-    "context7@claude-plugins-official": true
+    "context7@claude-plugins-official": true,
+    "notion@claude-plugins-official": true
   },
-  "effortLevel": "high"
+  "effortLevel": "medium",
+  "voiceEnabled": true,
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  }
 }
