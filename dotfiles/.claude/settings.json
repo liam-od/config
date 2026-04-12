@@ -60,7 +60,6 @@
       "~"
     ]
   },
-  "model": "opus[1m]",
   "enabledMcpjsonServers": [
     "github"
   ],

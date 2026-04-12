@@ -39,6 +39,14 @@
     force: true
     follow: false
 
+- name: Symlink Harlequin configuration
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/.config/harlequin"
+    dest: "{{ user_home }}/.config/harlequin"
+    state: link
+    force: true
+    follow: false
+
 - name: Symlink .latexmkrc
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.latexmkrc"
