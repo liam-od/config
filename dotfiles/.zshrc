@@ -29,8 +29,11 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
+. ~/.openclaw/completions/openclaw.zsh
 . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 bindkey '^ ' autosuggest-accept
 
 alias va="source .venv/bin/activate"
