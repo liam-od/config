@@ -47,6 +47,14 @@
     force: true
     follow: false
 
+- name: Symlink lazygit configuration
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/.config/lazygit"
+    dest: "{{ user_home }}/.config/lazygit"
+    state: link
+    force: true
+    follow: false
+
 - name: Symlink .latexmkrc
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.latexmkrc"
