@@ -18,6 +18,7 @@
       - git-delta
       - jq
       - gh
+      - htop
     update_cache: true
   become: true
 

@@ -6,8 +6,10 @@ paths:
 # Python Rules
 
 - Follow the Google Python style guide
-- Prefer docstrings over inline comments; only use inline comments for non-obvious one-liners
-- In docstrings, briefly motivate non-trivial algorithmic or design choices
+- Prefer docstrings over inline comments; in docstrings, briefly cover purpose and any non-trivial algorithmic or design choices
+- **Inline comments** (`#`): only for genuinely non-obvious one-liners; the comment must explain *why*, never restate what the code already says
+- **Never** use section-marker comments (`# --- Section ---`, `# ===`, `# ####`, etc.); structure code so it doesn't need a table of contents
+- A comment that could be deleted without losing any information should be deleted
 - Follow SOLID principles:
   - **Single Responsibility**: each function and class should do one thing and have one reason to change
   - **Open/Closed**: open for extension, closed for modification
