@@ -1,10 +1,12 @@
-local function on_attach(_, bufnr)
+local function on_attach(client, bufnr)
 	local opts = { buffer = bufnr, silent = true }
 	local keymap = vim.keymap
 
 	keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 	keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	keymap.set("n", "gr", Snacks.picker.lsp_references, opts)
+	keymap.set("n", "<C-k>", vim.lsp.buf.hover, opts)
+
 end
 
 vim.diagnostic.config({
@@ -70,6 +72,22 @@ vim.lsp.config("pyright", {
 	},
 })
 
+vim.lsp.config("vtsls", {
+	cmd = { "vtsls", "--stdio" },
+	filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+	root_markers = { "tsconfig.json", "package.json", ".git" },
+	on_attach = on_attach,
+	settings = {
+		vtsls = {
+			experimental = {
+				completion = {
+					enableServerSideFuzzyMatch = true,
+				},
+			},
+		},
+	},
+})
+
 vim.lsp.config("ansiblels", {
 	cmd = { "ansible-language-server", "--stdio" },
 	filetypes = { "yaml.ansible" },
@@ -87,6 +105,7 @@ vim.lsp.config("texlab", {
 vim.lsp.enable({
 	"lua_ls",
 	"pyright",
+	"vtsls",
 	"ansiblels",
 	"texlab",
 })

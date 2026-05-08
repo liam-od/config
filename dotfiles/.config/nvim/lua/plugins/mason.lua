@@ -18,6 +18,7 @@ return {
 			-- LSP
 			"lua-language-server",
 			"pyright",
+			"vtsls",
 			"ansible-language-server",
 			"texlab",
 
