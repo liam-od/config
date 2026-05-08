@@ -47,6 +47,17 @@
     force: true
     follow: false
 
+- name: Check if lazygit config is already a symlink
+  ansible.builtin.stat:
+    path: "{{ user_home }}/.config/lazygit"
+  register: lazygit_stat
+
+- name: Remove lazygit config directory if it is a plain directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.config/lazygit"
+    state: absent
+  when: lazygit_stat.stat.exists and not lazygit_stat.stat.islnk
+
 - name: Symlink lazygit configuration
   ansible.builtin.file:
     src: "{{ playbook_dir }}/dotfiles/.config/lazygit"
