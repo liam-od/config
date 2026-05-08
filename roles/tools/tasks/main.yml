@@ -54,6 +54,9 @@
 - name: Install wezterm
   include_tasks: install_wezterm.yml
 
+- name: Install Go
+  include_tasks: install_go.yml
+
 - name: Install lazygit
   include_tasks: install_lazygit.yml
 

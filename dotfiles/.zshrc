@@ -20,6 +20,8 @@ ghw() {
 add_to_path "/opt/nvim"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.cargo/bin"
+add_to_path "$HOME/.opencode/bin" # Not added to installs yet
+add_to_path "/usr/local/go/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -42,7 +44,7 @@ alias vim="nvim"
 alias gs="git status"
 alias gd="git diff"
 alias gl="git log"
-alias go="ghw browse"
+alias goo="ghw browse"
 alias gob="ghw browse -b \$(git branch --show-current)"
 alias gop="ghw pr view --web"
 alias ..="cd .."

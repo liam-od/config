@@ -1,0 +1,39 @@
+---
+- name: Get latest Go release info
+  ansible.builtin.uri:
+    url: https://go.dev/dl/?mode=json
+    method: GET
+    return_content: true
+  register: go_release
+  delegate_to: localhost
+  run_once: true
+
+- name: Check if Go is already installed and get version
+  ansible.builtin.command:
+    cmd: /usr/local/go/bin/go version
+  register: installed_go_version
+  failed_when: false
+  changed_when: false
+
+- name: Install/Update Go
+  vars:
+    go_version: "{{ go_release.json[0].version }}"
+    go_filename: "{{ go_version }}.linux-amd64.tar.gz"
+    go_url: "https://go.dev/dl/{{ go_filename }}"
+  when: >
+    installed_go_version.rc != 0 or
+    go_version not in installed_go_version.stdout
+  block:
+    - name: Remove existing Go installation
+      ansible.builtin.file:
+        path: /usr/local/go
+        state: absent
+      become: true
+
+    - name: Extract Go archive to /usr/local
+      ansible.builtin.unarchive:
+        src: "{{ go_url }}"
+        dest: /usr/local
+        remote_src: true
+        mode: "0755"
+      become: true
