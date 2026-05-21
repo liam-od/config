@@ -34,7 +34,7 @@ PANE_BR=$(tmux split-window -v -t $PANE_TR -P -F '#{pane_id}')
 tmux select-layout -t $SESSION:$WINDOW tiled
 
 tmux send-keys -t $PANE_TL "cd ~/workspace/enki/bytefuse/bytefuse-services && sleep 1 && make start-dev" C-m
-tmux send-keys -t $PANE_TR "cd ~/workspace/enki/bytefuse/bytefuse-services && sleep 1 && make start-worker" C-m
+tmux send-keys -t $PANE_TR "cd ~/workspace/enki/bytefuse/bytefuse-services && sleep 1 && uv run celery -A app.tasks.app worker --pool=solo -l info" C-m
 tmux send-keys -t $PANE_BL "cd ~/workspace/enki/bytefuse/bytefuse-client && sleep 1 && make start-dev" C-m
 tmux send-keys -t $PANE_BR "cd ~/workspace/enki/bytefuse/hocuspocus && sleep 1 && pnpm dev" C-m
 

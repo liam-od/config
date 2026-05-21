@@ -68,6 +68,7 @@
       "~"
     ]
   },
+  "model": "opus",
   "enabledMcpjsonServers": [
     "github"
   ],
@@ -76,10 +77,12 @@
     "context7@claude-plugins-official": true,
     "notion@claude-plugins-official": true
   },
-  "effortLevel": "medium",
-  "voiceEnabled": true,
+  "effortLevel": "high",
   "voice": {
     "enabled": true,
     "mode": "hold"
-  }
+  },
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true
 }

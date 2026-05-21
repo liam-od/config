@@ -31,6 +31,7 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
 eval "$(direnv hook zsh)"
+eval "$(cj shell zsh)"
 
 . ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
@@ -54,6 +55,7 @@ alias c="claude"
 alias cw="CLAUDE_CONFIG_DIR=~/.claude-work claude"
 alias hq='harlequin'
 alias bfdb='harlequin -a postgres "postgresql://postgres:password@localhost:63333/postgres"'
+alias cj-test='/home/liam/workspace/wizards/conjure/conjure'
 
 __wezterm_osc7() {
   local url="file://$HOST$PWD"
