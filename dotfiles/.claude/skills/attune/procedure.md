@@ -120,8 +120,10 @@ trigger:
 ```
 ## System Skills
 
-You MUST invoke the matching skill before working on the area it covers — do not act on the
-topical summaries in this file alone.
+You MUST invoke the matching skill before working on the area it covers — including before
+finalizing a plan that touches it. In plan mode, the Explore/Plan subagent does not see this
+file or these skills; once exploration reveals which systems are in scope, invoke their skills
+before writing the plan. Do not act on the topical summaries in this file alone.
 
 - **lighting** — light sources, shadows, and render passes; see `src/render/light/`.
 - **assets** — loading, packing, or adding models/textures/audio.

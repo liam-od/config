@@ -55,7 +55,7 @@ alias c="claude"
 alias cw="CLAUDE_CONFIG_DIR=~/.claude-work claude"
 alias hq='harlequin'
 alias bfdb='harlequin -a postgres "postgresql://postgres:password@localhost:63333/postgres"'
-alias cj-test='/home/liam/workspace/wizards/conjure/conjure'
+alias cjt='/home/liam/workspace/wizards/conjure/conjure'
 
 __wezterm_osc7() {
   local url="file://$HOST$PWD"
