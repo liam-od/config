@@ -75,11 +75,27 @@ The PR is the browsable record — the user reviews it on GitHub but takes no ac
 
 ## Sync local
 
-Bring the local target branch up to date with the merged result:
+Bring the local target branch up to date with the merged result. The local target may
+carry its own un-pushed commits (commits made directly onto `develop`), so rebase rather
+than fast-forward — `git pull --ff-only` aborts on divergence:
 
 ```
 git fetch origin
-git checkout <target> && git pull --ff-only
+git checkout <target>
+git pull --rebase origin <target>
+```
+
+After the rebase, if the local target is ahead of `origin/<target>` (it had local-only
+commits), push them so origin matches:
+
+```
+git rev-list --count origin/<target>..<target>   # >0 means local commits to push
+git push origin <target>                          # only if the count is >0
+```
+
+Then return to the feature branch:
+
+```
 git checkout <feature-branch>
 ```
 
@@ -98,4 +114,6 @@ Report:
     judgement.
   - If there were no conflicts, say so explicitly (`Rebased cleanly, no conflicts`).
 - The PR URL, and whether it merged immediately or was set to auto-merge on checks.
+- If the local target had its own un-pushed commits, say so and report that they were
+  rebased onto the merged result and pushed.
 - The final state: `<target>` is updated and ready for a manual PR to `main`.
