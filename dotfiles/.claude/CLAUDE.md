@@ -43,3 +43,9 @@ and URL rewriting (`git@github.com` → `git@github.com-enki`).
 **For gh CLI**: When running `gh` commands, it will use the currently authenticated account
 based on your git config. Specify the account context when needed with flags or by ensuring
 you're in the correct directory context.
+
+use the `gh` CLI when making issues, pull-requests or releases, or pushing.
+
+## Commits
+
+When making commits, strictly clear and concise, 1 line commit messages.
