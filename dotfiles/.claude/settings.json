@@ -10,80 +10,32 @@
   },
   "permissions": {
     "defaultMode": "auto",
-    "allow": [
-      "Read",
-      "Glob",
-      "Grep",
-      "Bash(ls *)",
-      "Bash(command ls *)",
-      "Bash(/bin/ls *)",
-      "Bash(find *)",
-      "Bash(command find *)",
-      "Bash(/bin/find *)",
-      "Bash(grep *)",
-      "Bash(cat *)",
-      "Bash(head *)",
-      "Bash(git status *)",
-      "Bash(git * status *)",
-      "Bash(git log *)",
-      "Bash(git * log *)",
-      "Bash(git diff *)",
-      "Bash(git * diff *)",
-      "Bash(git show *)",
-      "Bash(git * show *)",
-      "Bash(git fetch *)",
-      "Bash(git * fetch *)",
-      "Bash(git branch *)",
-      "Bash(git * branch *)",
-      "Bash(git add *)",
-      "Bash(git * add *)",
-      "Bash(git remote *)",
-      "Bash(git * remote *)",
-      "Bash(gh pr view *)",
-      "Bash(gh pr list *)",
-      "Bash(gh issue view *)",
-      "Bash(gh issue list *)",
-      "Bash(gh repo view *)",
-      "WebSearch",
-      "WebFetch",
-      "mcp__plugin_context7_context7",
-      "mcp__github__get_me",
-      "mcp__github__get_label",
-      "mcp__github__list_pull_requests",
-      "mcp__github__search_pull_requests",
-      "mcp__github__pull_request_read",
-      "mcp__github__list_issues",
-      "mcp__github__issue_write",
-      "mcp__github__issue_read",
-      "mcp__plugin_Notion_notion__notion-search",
-      "mcp__plugin_Notion_notion__notion-fetch"
-    ],
-    "deny": [
-      "Read(//**/.env)",
-      "Read(//**/.env.*)"
-    ],
-    "ask": [
-      "Bash(git commit *)"
-    ],
+    "ask": [],
     "additionalDirectories": [
       "~"
     ]
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "enabledMcpjsonServers": [
     "github"
   ],
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
-    "notion@claude-plugins-official": true
+    "notion@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true
   },
   "effortLevel": "high",
+  "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "verbose": false,
   "voiceEnabled": true
 }
