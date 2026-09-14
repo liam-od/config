@@ -1,29 +1,18 @@
 ---
 - name: Development enviroment setup
   hosts: localhost
-  pre_tasks:
-    - name: Set user home directory
-      ansible.builtin.set_fact:
-        user_home: "{{ lookup('env', 'HOME') }}"
-      tags:
-        - test
-        - base
-        - tools
-        - apps
-        - fonts
-        - symlinks
-        - system
-        - git
+  vars:
+    user_home: "{{ lookup('env', 'HOME') }}"
 
   roles:
     - role: base
       tags: base
 
-    - role: tools
-      tags: tools
-
     - role: apps
       tags: apps
+
+    - role: docker
+      tags: docker
 
     - role: fonts
       tags: fonts
@@ -31,8 +20,8 @@
     - role: symlinks
       tags: symlinks
 
-    - role: system
-      tags: system
+    - role: gnome
+      tags: gnome
 
     - role: git
       tags: git

@@ -1,103 +1,76 @@
-# config
+## Platform support
 
-My personal development environment. Dotfiles, Ansible automation, and scripts for Debian-based
-Linux and WSL.
+The automated installation is tested on Ubuntu 24.04 or later running the GNOME desktop environment.
 
-![Preview](assets/preview.png)
+Unsupported system? At least the dotfiles probably work.
 
-![Git](assets/git.png)
+## Setup
 
----
+Clone the repository, then edit `dotfiles/.config/mise/config.toml` to choose your tools and versions (keep `ansible-core`). Prepare the local files described below, then run:
 
-## Stack
-
-- **Terminal** WezTerm, tmux, zsh
-- **Prompt** Starship
-- **Editor** Neovim (lazy.nvim)
-- **Theme** Catppuccin Macchiato throughout
-- **Shell tools** zoxide, atuin, fzf, ripgrep, eza
-- **Languages** uv (Python), nvm (Node), rustup (Rust), Go
-
----
-
-## Install
-
-### Linux
-
-```sh
-sudo apt install git
-git clone https://github.com/liam-od/config.git ~/config
-cd ~/config && ./setup.sh
+```bash
+./setup
 ```
 
-> If you're me, copy SSH keys to `~/.ssh/` first (permissions must be `600`), then run
-> `./setup.sh --me` to include the personal multi-account GitHub config (requires vault password).
+`setup` installs mise if missing, symlinks its global configuration without overwriting an existing config, installs the required Ansible collections, runs `mise install`, and runs the Ansible playbook. Requires `curl` and CA certificates for the mise download; prompts for your sudo password. Git preserves the script's executable permission—no `.sh` extension is needed.
 
-Switch to zsh and log out for it to take effect.
+When setup finishes, log out and back in to activate Zsh as the login shell and apply Docker group membership. Then launch WezTerm and you are ready to go.
 
-```sh
-chsh -s $(which zsh)
+Extra arguments go directly to Ansible, for example `./setup --skip-tags git`. The mise config symlink is owned by `setup`, not an Ansible role.
+
+### Keyboard
+
+GNOME keyboard defaults are defined in `roles/gnome/defaults/main.yml`:
+
+```yaml
+keyboard_xkb_options:
+  - caps:escape
+keyboard_repeat_interval: 8
+keyboard_repeat_delay: 180
 ```
 
-Then open WezTerm and press `Ctrl-a, I` to install tmux plugins, and run `vim` to let lazy.nvim
-install Neovim plugins.
+Change `caps:escape` to another XKB option, such as `caps:swapescape`, or use an empty list (`[]`) to leave Caps Lock without a custom mapping. The configured list replaces the user's existing GNOME XKB options.
 
-### WSL
+## Config
 
-On the Windows side first:
+Before running the playbook, create your local Git identity file:
 
-- Install [**WezTerm nightly**](https://wezterm.org/installation.html) on Windows
-- Install **Hack Nerd Font**
-- Copy `.wezterm.lua` to `%USERPROFILE%`
-
-```sh
-sudo apt install git
-git clone https://github.com/liam-od/config.git ~/config
-cd ~/config && ./setup.sh --wsl
+```bash
+cp host_vars/localhost.yml.example host_vars/localhost.yml
 ```
 
----
+Then set your name and email in `host_vars/localhost.yml`. This file is ignored by Git.
 
-## Ansible roles
+Create your personal SSH configuration from the example:
 
-| Role | What it does |
-|------|-------------|
-| `base` | Core apt packages (zsh, tmux, ripgrep, fd, fzf, eza, git-delta, jq, gh) |
-| `tools` | uv, nvm, rustup, zoxide, starship, direnv, atuin, neovim, lazygit, docker |
-| `fonts` | Hack Nerd Font |
-| `symlinks` | Links dotfiles into place |
-| `system` | GNOME settings, Caps to Escape and fast key repeat |
-| `apps` | Spotify (Debian only) |
-| `git` | Multi-account GitHub setup (personal, work via `includeIf`) |
-
----
-
-## Neovim highlights
-
-Full plugin list in [`dotfiles/.config/nvim/lua/plugins/`](dotfiles/.config/nvim/lua/plugins/).
-
-Key plugins are **snacks.nvim** (picker, explorer, dashboard, lazygit), **blink.cmp** (completion),
-**conform.nvim** (format on save), **gitsigns.nvim**, and **copilot.lua**.
-
-A few keybinds worth knowing, with `<leader>` as Space.
-
-| Key | Action |
-|-----|--------|
-| `zz` | Save |
-| `<leader>ff` | Find files |
-| `<leader>fs` | Live grep |
-| `<leader>e` | File explorer |
-| `<leader>gg` | Lazygit |
-| `<leader>d` | Diagnostics float |
-
----
-
-## Extra
-
-LaTeX is too large to bundle in the Ansible roles, so install manually if needed.
-
-```sh
-sudo apt install texlive-full
+```bash
+cp dotfiles/.ssh/config.example dotfiles/.ssh/config
 ```
 
-Eventually planning to migrate the whole setup to [Nix](https://github.com/nixos/nix).
+Edit it with your hosts and identities. Ansible symlinks it to `~/.ssh/config`, and the source file is ignored by Git.
+
+### Restore private files with Bitwarden
+
+Store `localhost.yml` and `config` as attachments on a uniquely named Secure Note, such as `Config`. Log in once per machine, then unlock the vault in each terminal session:
+
+```bash
+bw login
+export BW_SESSION="$(bw unlock --raw)"
+bw sync
+```
+
+From the repository root, restore both files with:
+
+```bash
+./scripts/restore-config "<item_name>"
+```
+
+The script requires one exact item match and one of each expected attachment, then installs both files with mode `0600`.
+
+Restore a Bitwarden SSH Key item to `~/.ssh/<key_name>` and its public key to the matching `.pub` file:
+
+```bash
+./scripts/restore-keys "<key_name>"
+```
+
+The script prints the restored key's fingerprint. Closing the terminal clears `BW_SESSION`; use `bw lock` to invalidate it immediately.

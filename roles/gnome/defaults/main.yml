@@ -1,0 +1,5 @@
+---
+keyboard_xkb_options:
+  - caps:escape
+keyboard_repeat_interval: 8
+keyboard_repeat_delay: 180

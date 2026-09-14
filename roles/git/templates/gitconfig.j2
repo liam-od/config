@@ -1,28 +1,6 @@
 [user]
-    name = {{ GIT_USER_NAME }}
-    email = {{ GIT_USER_EMAIL }}
-
-[core]
-    editor = nvim
-    pager = delta
-
-[interactive]
-    diffFilter = delta --color-only
-
-[delta]
-    navigate = true
-    dark = true
-    line-numbers = true
-    side-by-side = true
-    hyperlinks = true
-    hyperlinks-file-link-format = "file://{path}:{line}"
-    hunk-header-style = omit
-    file-style = bold yellow
-    file-decoration-style = box
+    name = {{ git_user_name }}
+    email = {{ git_user_email }}
 
 [merge]
     conflictStyle = zdiff3
-
-# Load enki rules for anything under ~/workspace/enki/
-[includeIf "gitdir:~/workspace/enki/"]
-    path = ~/.gitconfig-enki

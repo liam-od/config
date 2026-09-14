@@ -1,3 +1,5 @@
-.env
+dotfiles/.ssh/config
+host_vars/localhost.yml
 undodir/
+.ansible/
 

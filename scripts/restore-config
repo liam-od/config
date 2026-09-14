@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    printf 'Usage: %s "Item name"\n' "${0##*/}" >&2
+    exit 2
+fi
+
+repo_root="$PWD"
+if [[ ! -f "$repo_root/playbook.yml" ||
+      ! -f "$repo_root/host_vars/localhost.yml.example" ||
+      ! -f "$repo_root/dotfiles/.ssh/config.example" ]]; then
+    printf 'Run this command from the root of the config repository.\n' >&2
+    exit 1
+fi
+
+bw sync >/dev/null
+items="$(bw list items --search "$1" | jq --arg name "$1" '[.[] | select(.name == $name)]')"
+count="$(jq 'length' <<<"$items")"
+
+if [[ "$count" -ne 1 ]]; then
+    printf 'Expected one item named "%s", found %s.\n' "$1" "$count" >&2
+    exit 1
+fi
+
+item_id="$(jq -r '.[0].id' <<<"$items")"
+for attachment in localhost.yml config; do
+    count="$(jq --arg name "$attachment" '[.[0].attachments[]? | select(.fileName == $name)] | length' <<<"$items")"
+    if [[ "$count" -ne 1 ]]; then
+        printf 'Expected one attachment named "%s", found %s.\n' "$attachment" "$count" >&2
+        exit 1
+    fi
+done
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+bw get attachment localhost.yml --itemid "$item_id" --output "$tmp/localhost.yml" >/dev/null
+bw get attachment config --itemid "$item_id" --output "$tmp/config" >/dev/null
+
+install -Dm600 "$tmp/localhost.yml" "$repo_root/host_vars/localhost.yml"
+install -Dm600 "$tmp/config" "$repo_root/dotfiles/.ssh/config"
+
+printf 'Restored:\n- %s\n- %s\n' \
+    "$repo_root/host_vars/localhost.yml" \
+    "$repo_root/dotfiles/.ssh/config"

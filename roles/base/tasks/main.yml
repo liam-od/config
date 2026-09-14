@@ -3,63 +3,24 @@
   ansible.builtin.apt:
     name:
       - build-essential
-      - curl
-      - unzip
       - git
-      - zsh
-      - tmux
-      - ripgrep
-      - fd-find
-      - fzf
-      - eza
-      - python3-pip
-      - python3-venv
       - libfuse2
-      - git-delta
-      - jq
-      - gh
-      - htop
+      - unzip
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
     update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Set Zsh as the default login shell
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    shell: /usr/bin/zsh
   become: true
 
 - name: Ensure workspace directory exists
   ansible.builtin.file:
     path: "{{ user_home }}/workspace"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .ssh directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.ssh"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .config directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.config"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .zsh directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.zsh"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .local/bin directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.local/bin"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .claude directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.claude"
-    state: directory
-    mode: "0755"
-
-- name: Ensure .claude-work directory exists
-  ansible.builtin.file:
-    path: "{{ user_home }}/.claude-work"
     state: directory
     mode: "0755"

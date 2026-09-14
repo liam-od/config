@@ -1,4 +1,5 @@
 ---
-- name: Install Spotify
-  ansible.builtin.include_tasks: install_spotify.yml
-  when: ansible_facts['os_family'] == "Debian"
+- name: Install WezTerm nightly
+  ansible.builtin.apt:
+    deb: https://github.com/wezterm/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu24.04.deb
+  become: true

@@ -1,52 +1,26 @@
--- WezTerm Configuration
 
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
-
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then
-	config.default_domain = "WSL:Ubuntu"
-end
 
 config.initial_cols = 120
 config.initial_rows = 60
 
 config.font_size = 12
 config.font = wezterm.font("Hack Nerd Font")
--- config.font = wezterm.font('JetBrains Mono')
--- config.font = wezterm.font('Monaspace Neon Frozen')
 
 config.color_scheme = "Catppuccin Macchiato"
 config.window_background_opacity = 1.0
 config.window_decorations = "RESIZE"
-config.hide_tab_bar_if_only_one_tab = true
-config.window_padding = {
-	left = 1,
-	right = 1,
-	top = 1,
-	bottom = 1,
-}
+config.enable_tab_bar = false
+--config.window_padding = {
+-- 	left = 1,
+-- 	right = 1,
+-- 	top = 1,
+-- 	bottom = 1,
+--}
 
 config.audible_bell = "Disabled"
-
 config.max_fps = 240
-config.animation_fps = 240
-config.front_end = "WebGpu"
-config.use_ime = false
-
-wezterm.on('open-uri', function(window, pane, uri)
-  local cwd_uri = pane:get_current_working_dir()
-  local cwd = cwd_uri and cwd_uri.file_path or ''
-  if uri:match('github%.com') and cwd:match('/workspace/enki/') then
-    wezterm.open_with(uri, 'google-chrome-stable')
-    return false
-  end
-  local rest = uri:match('^file://(.+)$')
-  if not rest then return end
-  local path, line = rest:match('^(.+):(%d+)$')
-  if not path then path = rest:gsub(':$', '') end
-  local args = line and { '/opt/nvim/nvim', '+' .. line, path } or { '/opt/nvim/nvim', path }
-  window:perform_action(wezterm.action.SpawnCommandInNewTab { args = args }, pane)
-  return false
-end)
+config.enable_wayland = false
 
 return config

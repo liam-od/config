@@ -13,10 +13,13 @@
 
 ### Shell
 
-The following aliases are active in this shell
+The following interactive shell conveniences are active:
 
-- `ls` → `eza --icons -F -H --group-directories-first -git -1`
-- `cd` → `z` (zoxide)
+- `l` → `eza --icons=auto --classify=auto --hyperlink=auto --group-directories-first`
+- `tree` → `eza --tree --level=2 --icons=auto --hyperlink=auto --group-directories-first`
+- `z` and `zi` are provided by zoxide
+
+The standard `ls` and `cd` commands are unchanged and safe to use in automation.
 
 ## Git Configuration
 

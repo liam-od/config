@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$repo_dir"
+
+mise="$HOME/.local/bin/mise"
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/mise"
+config="$config_dir/config.toml"
+source_config="$repo_dir/dotfiles/.config/mise/config.toml"
+
+# Do not replace an existing user configuration.
+if [[ -e "$config" || -L "$config" ]]; then
+    if [[ ! -L "$config" || "$(readlink -f -- "$config")" != "$source_config" ]]; then
+        printf 'Existing mise config: %s\nBack it up or merge it before running setup.\n' "$config" >&2
+        exit 1
+    fi
+fi
+
+# Ubuntu bootstrap prerequisites, also needed for subsequent tool downloads.
+if ! command -v curl >/dev/null 2>&1 ||
+    [[ ! -r /etc/ssl/certs/ca-certificates.crt || ! -s /etc/ssl/certs/ca-certificates.crt ]]; then
+    printf 'Missing curl or the system CA certificate bundle. Run:\n  sudo apt update && sudo apt install -y curl ca-certificates\n' >&2
+    exit 1
+fi
+
+if [[ ! -x "$mise" ]]; then
+    installer="$(mktemp)"
+    trap 'rm -f -- "$installer"' EXIT
+    curl --fail --silent --show-error --location https://mise.run --output "$installer"
+    MISE_INSTALL_PATH="$mise" sh "$installer"
+    rm -f -- "$installer"
+    trap - EXIT
+fi
+
+mkdir -p -- "$config_dir"
+if [[ ! -L "$config" ]]; then
+    ln -s -- "$source_config" "$config"
+fi
+
+"$mise" install
+"$mise" exec -- ansible-galaxy collection install --requirements-file requirements.yml
+
+# https://github.com/ansible/ansible/issues/87423
+if [[ -x /usr/bin/sudo.ws && -z "${ANSIBLE_BECOME_EXE:-}" ]]; then
+    export ANSIBLE_BECOME_EXE=/usr/bin/sudo.ws
+fi
+
+exec "$mise" exec -- ansible-playbook playbook.yml --ask-become-pass "$@"

@@ -1,133 +1,34 @@
 ---
-- name: Symlink .ssh/config
+- name: Ensure symlink destination directories exist
   ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.ssh/config"
-    dest: "{{ user_home }}/.ssh/config"
+    path: "{{ user_home }}/{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+  loop:
+    - path: .ssh
+      mode: "0700"
+    - path: .config
+      mode: "0755"
+    - path: .config/herdr
+      mode: "0755"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: Symlink dotfiles
+  ansible.builtin.file:
+    src: "{{ playbook_dir }}/dotfiles/{{ item }}"
+    dest: "{{ user_home }}/{{ item }}"
     state: link
     force: true
     follow: false
-
-- name: Symlink .zshrc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.zshrc"
-    dest: "{{ user_home }}/.zshrc"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink .tmux.conf
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.tmux.conf"
-    dest: "{{ user_home }}/.tmux.conf"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink starship.toml
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.config/starship.toml"
-    dest: "{{ user_home }}/.config/starship.toml"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink Neovim configuration
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.config/nvim"
-    dest: "{{ user_home }}/.config/nvim"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink Harlequin configuration
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.config/harlequin"
-    dest: "{{ user_home }}/.config/harlequin"
-    state: link
-    force: true
-    follow: false
-
-- name: Check if lazygit config is already a symlink
-  ansible.builtin.stat:
-    path: "{{ user_home }}/.config/lazygit"
-  register: lazygit_stat
-
-- name: Remove lazygit config directory if it is a plain directory
-  ansible.builtin.file:
-    path: "{{ user_home }}/.config/lazygit"
-    state: absent
-  when: lazygit_stat.stat.exists and not lazygit_stat.stat.islnk
-
-- name: Symlink lazygit configuration
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.config/lazygit"
-    dest: "{{ user_home }}/.config/lazygit"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink .latexmkrc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.latexmkrc"
-    dest: "{{ user_home }}/.latexmkrc"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink .chktexrc
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.chktexrc"
-    dest: "{{ user_home }}/.chktexrc"
-    state: link
-    force: true
-    follow: false
-
-- name: Symlink WezTerm configuration
-  ansible.builtin.file:
-    src: "{{ playbook_dir }}/dotfiles/.wezterm.lua"
-    dest: "{{ user_home }}/.wezterm.lua"
-    state: link
-    force: true
-    follow: false
-
-- name: Find all files in scripts
-  ansible.builtin.find:
-    paths: "{{ playbook_dir }}/scripts"
-    file_type: file
-    recurse: false
-  register: bin_scripts
-
-- name: Symlink bin scripts to ~/.local/bin
-  ansible.builtin.file:
-    src: "{{ item.path }}"
-    dest: "{{ user_home }}/.local/bin/{{ item.path | basename }}"
-    state: link
-    force: true
-    follow: false
-  loop: "{{ bin_scripts.files }}"
-
-- name: Find all files and directories in dotfiles/.claude
-  ansible.builtin.find:
-    paths: "{{ playbook_dir }}/dotfiles/.claude"
-    file_type: any
-    hidden: true
-    recurse: false
-  register: claude_dotfiles
-
-- name: Symlink .claude files and directories to ~/.claude
-  ansible.builtin.file:
-    src: "{{ item.path }}"
-    dest: "{{ user_home }}/.claude/{{ item.path | basename }}"
-    state: link
-    force: true
-    follow: false
-  loop: "{{ claude_dotfiles.files }}"
-
-- name: Symlink .claude files and directories to ~/.claude-work
-  ansible.builtin.file:
-    src: "{{ item.path }}"
-    dest: "{{ user_home }}/.claude-work/{{ item.path | basename }}"
-    state: link
-    force: true
-    follow: false
-  loop: "{{ claude_dotfiles.files }}"
+  loop:
+    - .ssh/config
+    - .zshrc
+    - .config/herdr/config.toml
+    - .config/starship.toml
+    - .config/nvim
+    - .latexmkrc
+    - .chktexrc
+    - .wezterm.lua
+  loop_control:
+    label: "{{ item }}"

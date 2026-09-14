@@ -1,0 +1,31 @@
+---
+# These per-user settings assume a GNOME desktop environment.
+
+- name: Install GNOME settings automation dependencies
+  ansible.builtin.apt:
+    name:
+      - dconf-cli
+      - python3-gi
+      - python3-psutil
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Configure GNOME keyboard
+  community.general.dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - key: /org/gnome/desktop/input-sources/xkb-options
+      value: "{{ keyboard_xkb_options | string }}"
+    - key: /org/gnome/desktop/peripherals/keyboard/repeat-interval
+      value: "uint32 {{ keyboard_repeat_interval }}"
+    - key: /org/gnome/desktop/peripherals/keyboard/delay
+      value: "uint32 {{ keyboard_repeat_delay }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    # The dconf module needs Ubuntu's GI and psutil Python packages.
+    ansible_python_interpreter: /usr/bin/python3

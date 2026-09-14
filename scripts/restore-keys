@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    printf 'Usage: %s KEY_NAME\n' "${0##*/}" >&2
+    exit 2
+fi
+
+key_name="$1"
+if [[ ! "$key_name" =~ ^[a-zA-Z0-9._-]+$ ]]; then
+    printf 'Key name may contain only letters, numbers, dots, underscores, and hyphens.\n' >&2
+    exit 1
+fi
+
+for command in bw jq ssh-keygen; do
+    if ! command -v "$command" >/dev/null 2>&1; then
+        printf 'Required command not found: %s\n' "$command" >&2
+        exit 1
+    fi
+done
+
+bw sync >/dev/null
+matches="$(bw list items --search "$key_name" |
+    jq --arg name "$key_name" '[.[] | select(.name == $name) | {id, name, type}]')"
+count="$(jq 'length' <<<"$matches")"
+
+if [[ "$count" -ne 1 ]]; then
+    printf 'Expected one item named "%s", found %s.\n' "$key_name" "$count" >&2
+    exit 1
+fi
+
+if [[ "$(jq -r '.[0].type' <<<"$matches")" -ne 5 ]]; then
+    printf 'Item "%s" is not a Bitwarden SSH Key item.\n' "$key_name" >&2
+    exit 1
+fi
+
+item_id="$(jq -r '.[0].id' <<<"$matches")"
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+bw get item "$item_id" > "$tmp/item.json"
+if ! jq -e '.sshKey.privateKey and .sshKey.publicKey' "$tmp/item.json" >/dev/null; then
+    printf 'Item "%s" does not contain both private and public keys.\n' "$key_name" >&2
+    exit 1
+fi
+
+jq -r '.sshKey.privateKey' "$tmp/item.json" > "$tmp/private"
+jq -r '.sshKey.publicKey' "$tmp/item.json" > "$tmp/public"
+
+install -Dm600 "$tmp/private" "$HOME/.ssh/$key_name"
+install -Dm644 "$tmp/public" "$HOME/.ssh/$key_name.pub"
+
+printf 'Restored:\n- %s\n- %s\nFingerprint: ' \
+    "$HOME/.ssh/$key_name" \
+    "$HOME/.ssh/$key_name.pub"
+ssh-keygen -lf "$HOME/.ssh/$key_name.pub"
