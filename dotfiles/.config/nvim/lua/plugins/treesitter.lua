@@ -1,50 +1,35 @@
-return {
-	"nvim-treesitter/nvim-treesitter",
-	lazy = false,
-	branch = "main",
-	build = ":TSUpdate",
-	config = function()
-		local languages = {
-			"lua",
-			"python",
-			"javascript",
-			"typescript",
-			"tsx",
-			"yaml",
-			"json",
-			"html",
-			"css",
-			"markdown",
-			"markdown_inline",
-			"bash",
-			"vim",
-			"dockerfile",
-			"gitignore",
-			"regex",
-			"latex",
-		}
-
-		require("nvim-treesitter").setup({})
-		require("nvim-treesitter").install({ unpack(languages) })
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = languages,
-			callback = function()
-				vim.treesitter.start()
-				-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-				-- vim.wo.foldmethod = 'expr'
-				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-
-				vim.bo.smartindent = false
-				vim.bo.cindent = false
-				vim.bo.autoindent = true
-			end,
-		})
-
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "tex",
-			callback = function()
-				vim.treesitter.start(0, "latex")
-			end,
-		})
-	end,
+local languages = {
+	css = "css",
+	html = "html",
+	javascript = "javascript",
+	javascriptreact = "javascript",
+	json = "json",
+	python = "python",
+	sh = "bash",
+	tex = "latex",
+	typescript = "typescript",
+	typescriptreact = "tsx",
+	yaml = "yaml",
+	["yaml.ansible"] = "yaml",
 }
+
+local parsers = {}
+for _, language in pairs(languages) do
+	parsers[language] = true
+end
+
+if vim.fn.executable("tree-sitter") == 1 then
+	require("nvim-treesitter").install(vim.tbl_keys(parsers))
+else
+	vim.schedule(function()
+		vim.notify("nvim-treesitter requires tree-sitter-cli", vim.log.levels.WARN)
+	end)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = vim.tbl_keys(languages),
+	callback = function(event)
+		local language = languages[vim.bo[event.buf].filetype]
+		pcall(vim.treesitter.start, event.buf, language)
+	end,
+})

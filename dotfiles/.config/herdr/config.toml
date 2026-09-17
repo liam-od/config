@@ -9,3 +9,7 @@ prompt_new_tab_name = false
 prefix = "ctrl+a"
 settings = "prefix+comma"
 split_horizontal = "prefix+s"
+
+[theme]
+name = "catppuccin"
+auto_switch = false

@@ -1,4 +1,3 @@
-
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
@@ -12,12 +11,6 @@ config.color_scheme = "Catppuccin Macchiato"
 config.window_background_opacity = 1.0
 config.window_decorations = "RESIZE"
 config.enable_tab_bar = false
---config.window_padding = {
--- 	left = 1,
--- 	right = 1,
--- 	top = 1,
--- 	bottom = 1,
---}
 
 config.audible_bell = "Disabled"
 config.max_fps = 240

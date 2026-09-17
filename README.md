@@ -18,6 +18,17 @@ When setup finishes, log out and back in to activate Zsh as the login shell and 
 
 Extra arguments go directly to Ansible, for example `./setup --skip-tags git`. The mise config symlink is owned by `setup`, not an Ansible role.
 
+### Herdr integration
+
+After setup, run these commands as your normal user to install Herdr's Pi integration and global skill:
+
+```bash
+herdr integration install pi
+npx skills add herdrdev/herdr --skill herdr -g --agent pi
+```
+
+Follow any installer prompts, then restart Pi.
+
 ### Keyboard
 
 GNOME keyboard defaults are defined in `roles/gnome/defaults/main.yml`:
@@ -30,6 +41,32 @@ keyboard_repeat_delay: 180
 ```
 
 Change `caps:escape` to another XKB option, such as `caps:swapescape`, or use an empty list (`[]`) to leave Caps Lock without a custom mapping. The configured list replaces the user's existing GNOME XKB options.
+
+### Neovim
+
+The Neovim 0.12 configuration is intentionally small: plugins are managed by native `vim.pack`, language servers use the native LSP client, native completion opens automatically only for server-defined trigger characters, and external tools are installed with mise. Configured servers are LuaLS, Pyright, Ansible Language Server, and Texlab. Conform handles formatting with StyLua, Ruff, prettierd, and latexindent. Tree-sitter parsers install automatically when `tree-sitter-cli` is available.
+
+The plugin revisions in `dotfiles/.config/nvim/nvim-pack-lock.json` should be committed. Update plugins with `:lua vim.pack.update()`, review the changes, apply them with `:write`, and restart Neovim. Run `:TSUpdate` after updating nvim-treesitter.
+
+Key mappings and useful native completion commands:
+
+| Mapping | Action |
+| --- | --- |
+| `zz` | Save the current file |
+| `gd` | Go to LSP definition |
+| `K` | Show LSP hover documentation |
+| `grr` | Find LSP references |
+| `<leader>d` | Show diagnostics |
+| `<C-Space>` | Request LSP completion |
+| `<C-x><C-f>` | Complete a filesystem path |
+| `<C-n>` / `<C-p>` | Start keyword completion or navigate the completion menu |
+| `<C-y>` | Accept the selected completion |
+| `<C-e>` | Dismiss the completion menu |
+| `<C-s>` | Show LSP signature help |
+| `<leader>f` | Format the visual selection |
+| `<leader>gd` | Toggle the Git diff overlay |
+| `[h` / `]h` | Move to the previous/next Git hunk |
+| `<C-c>` in Visual mode | Copy to the system clipboard |
 
 ## Config
 
