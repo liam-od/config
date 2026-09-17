@@ -27,8 +27,6 @@
     - .config/herdr/config.toml
     - .config/starship.toml
     - .config/nvim
-    - .latexmkrc
-    - .chktexrc
     - .wezterm.lua
   loop_control:
     label: "{{ item }}"
